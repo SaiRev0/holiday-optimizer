@@ -1,0 +1,171 @@
+import { Metadata } from 'next';
+import { PROJECT_NAME } from '@/constants';
+import { BlogPostLayout } from '@/components/layout/BlogPostLayout';
+import { Callout } from '@/components/blog/Callout';
+import { BlogPostImage } from '@/components/blog/BlogPostImage';
+
+export const metadata: Metadata = {
+  title: `Article Title | ${PROJECT_NAME}`,
+  description: 'A compelling description of your article that includes relevant keywords',
+  openGraph: {
+    title: `Article Title | ${PROJECT_NAME}`,
+    description: 'A compelling description of your article that includes relevant keywords',
+    type: 'article',
+    publishedTime: '2024-00-00T00:00:00Z', // Update with actual publishing date
+    images: [
+      {
+        url: 'https://ctoplanner.com/images/blog/article-slug/featured.jpg', // Update with actual image path
+        width: 1200,
+        height: 630,
+        alt: 'Descriptive alt text for your featured image',
+      },
+    ],
+  },
+  alternates: {
+    canonical: 'https://ctoplanner.com/blog/article-slug', // Update with actual slug
+  },
+};
+
+export default function ArticleName() {
+  return (
+    <BlogPostLayout
+      title="Article Title"
+      description="A brief but compelling description of your article"
+      date="Month DD, YYYY" // Display date
+      readTime="X min read" // Estimate read time
+      publishedDate="2024-00-00T00:00:00Z" // ISO format date for schema, should match metadata
+      featuredImage="/images/blog/article-slug/featured.jpg" // Update with actual image path
+      tags={["Tag 1", "Tag 2", "Tag 3"]} // Update with relevant tags
+      author="Waqar Kalim" // Default author
+      authorRole="Developer & Time Management Enthusiast" // Default role
+    >
+      <section>
+        <h2 id="introduction">Introduction</h2>
+        <p>
+          Start with an engaging introduction that outlines the problem or topic your article addresses. 
+          Include relevant statistics or emotional hooks to draw the reader in. Mention what the reader
+          will learn or gain from the article.
+        </p>
+
+        <BlogPostImage
+          src="/images/blog/article-slug/example-image.jpg" // Update with actual image path
+          alt="Descriptive alt text for the image"
+          caption="Optional caption explaining the significance of this image"
+          priority={true} // Set to true for above-the-fold images
+        />
+      </section>
+
+      <section>
+        <h2 id="section-id">Main Section Title</h2>
+        <p>
+          Begin with an overview paragraph that introduces the main points of this section.
+          Each section should focus on one major aspect of your topic.
+        </p>
+
+        <Callout title="Pro Tip" type="tip">
+          Use callouts to highlight important tips, insights, or warnings that you want
+          readers to pay special attention to. This makes key information stand out.
+        </Callout>
+        
+        <h3 id="subsection-id">Subsection Title</h3>
+        <p>
+          Detailed explanation of a specific aspect of the main section. 
+          Keep paragraphs focused on a single idea for better readability.
+        </p>
+        
+        <h3 id="another-subsection">Another Subsection Title</h3>
+        <ul>
+          <li>Use bullet points for lists of related items</li>
+          <li>Keep bullet points concise and parallel in structure</li>
+          <li>Start each bullet with action words when possible</li>
+          <li>Aim for 3-7 bullet points per list</li>
+        </ul>
+
+        <BlogPostImage
+          src="/images/blog/article-slug/another-image.jpg" // Update with actual image path
+          alt="Descriptive alt text for another image"
+          caption="Images break up text and illustrate key concepts"
+        />
+      </section>
+
+      <section>
+        <h2 id="another-section">Another Main Section</h2>
+        <p>
+          Continue with additional sections as needed. Make sure each section contributes
+          to the overall purpose of the article and flows logically from the previous section.
+        </p>
+        
+        <Callout title="Important Note" type="info">
+          Use info callouts to provide additional context or background information
+          that helps readers understand the topic better.
+        </Callout>
+        
+        <h3 id="numbered-list-example">Numbered List Example</h3>
+        <ol>
+          <li>Use numbered lists for sequential steps or prioritized items</li>
+          <li>Each step should be clear and actionable</li>
+          <li>Provide enough detail for the reader to understand and implement</li>
+        </ol>
+        
+        <h3 id="example-with-strong">Example With Text Formatting</h3>
+        <p>
+          Use <strong>bold text</strong> to emphasize important points or key terms.
+          You can also use <em>italic text</em> for definitions or slight emphasis.
+          For code or technical terms, use <code>monospace formatting</code>.
+        </p>
+
+        <Callout title="Warning" type="warning">
+          Warning callouts are perfect for highlighting potential pitfalls, common mistakes,
+          or important considerations readers should be aware of.
+        </Callout>
+      </section>
+
+      <section>
+        <h2 id="related-resources">Related Resources or Tools</h2>
+        <p>
+          Highlight tools or resources that can help the reader implement the advice in your article.
+          This is a good place to mention the CTO Days Optimizer specifically.
+        </p>
+        <ul>
+          <li><strong>CTO Days Optimizer:</strong> Explain how this tool helps with the article topic</li>
+          <li><strong>Other relevant tools:</strong> Mention complementary tools or resources</li>
+          <li><strong>Additional reading:</strong> Suggest other articles for further learning</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="optimize-now">Ready to Take Action?</h2>
+        <div className="my-8 rounded-lg border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-950">
+          <h3 className="mb-4 text-xl font-bold text-blue-700 dark:text-blue-300">Make the Most of Your Time Off</h3>
+          <p className="mb-4">
+            Put the strategies from this article into practice with the free CTO Days Optimizer:
+          </p>
+          <ul className="mb-6 ml-6 list-disc space-y-2">
+            <li>Create a personalized plan based on your specific needs</li>
+            <li>Visualize optimal days to request time off</li>
+            <li>Maximize your breaks with minimal PTO usage</li>
+            <li>Save and share your optimized time-off schedule</li>
+          </ul>
+          <a 
+            href="/" 
+            className="inline-flex items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-500"
+          >
+            Try the Free Optimizer Tool →
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2 id="conclusion">Conclusion</h2>
+        <p>
+          Summarize the key points of your article and reinforce the main message.
+          Remind readers of the benefits they'll gain by implementing your advice.
+        </p>
+        <p>
+          End with a clear call to action, such as: Ready to put these strategies into action?
+          Use my free <a href="/">CTO Days Optimizer tool</a> to plan your time off strategically.
+        </p>
+      </section>
+    </BlogPostLayout>
+  );
+} 

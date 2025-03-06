@@ -3,7 +3,11 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `Privacy Policy | ${PROJECT_NAME}`,
-  description: `Privacy policy for ${PROJECT_NAME} - Learn how we protect and handle your data.`,
+  description: `Privacy policy for ${PROJECT_NAME} - Learn how I protect and handle your data.`,
+  openGraph: {
+    title: `Privacy Policy | ${PROJECT_NAME}`,
+    description: `Privacy policy for ${PROJECT_NAME}`,
+  },
 };
 
 export default function PrivacyPolicy() {
@@ -22,7 +26,7 @@ export default function PrivacyPolicy() {
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
               {PROJECT_NAME} is a web application that helps you optimize your holiday planning. While the core functionality
-              runs in your browser, we do utilize some external services and local storage to enhance your experience.
+              runs in your browser, I do utilize some external services and local storage to enhance your experience.
             </p>
           </section>
 
@@ -31,17 +35,19 @@ export default function PrivacyPolicy() {
               <span className="text-base">🔒</span> Data Usage and Storage
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              Here&apos;s how we handle your data:
+              Your privacy is important. This page explains how I handle your data when you use {PROJECT_NAME}.
+            </p>
+            <h3>Data Collection</h3>
+            <p>
+              Here&apos;s how I handle your data:
             </p>
             <ul className="list-disc pl-4 mt-1 space-y-0.5 text-gray-600 dark:text-gray-400">
-              <li>We use local storage to save your preferences and holiday planning data</li>
-              <li>All locally stored data remains on your device and is under your control</li>
-              <li>You can clear this data at any time by clearing your browser&apos;s local storage</li>
-              <li>We make API calls to external services for holiday data and calculations</li>
-              <li>No personal information is shared with third parties without your consent</li>
+              <li>I use local storage to save your preferences and holiday planning data</li>
+              <li>The app uses geolocation (with your permission) to suggest relevant holidays</li>
+              <li>I make API calls to external services for holiday data and calculations</li>
             </ul>
             <p className="mt-2 text-xs italic text-gray-500 dark:text-gray-400">
-              Your privacy is important to us - we only store what&apos;s necessary for the app to function effectively.
+              Your privacy is important to me - I only store what&apos;s necessary for the app to function effectively.
             </p>
           </section>
 
@@ -50,7 +56,7 @@ export default function PrivacyPolicy() {
               <span className="text-base">🌐</span> External Services & Browser APIs
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              We utilize the following services and browser features:
+              I utilize the following services and browser features:
             </p>
             <ul className="list-disc pl-4 mt-1 space-y-0.5 text-gray-600 dark:text-gray-400">
               <li>Browser&apos;s Geolocation API - Used to detect your current location (with your permission)</li>

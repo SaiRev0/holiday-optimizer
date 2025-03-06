@@ -2,6 +2,7 @@ import { Logo } from '@/components/Logo';
 import { cn, spacing } from '@/lib/utils';
 import { GitHubLink } from '@/components/ui/github-link';
 import { GITHUB_URL } from '@/constants';
+import Link from 'next/link';
 
 const Header = () => (
   <header className={cn(
@@ -14,7 +15,17 @@ const Header = () => (
       spacing.container,
     )}>
       <div className="flex h-14 items-center justify-between">
-        <Logo />
+        <div className="flex items-center gap-4">
+          <Logo />
+          <nav className="hidden sm:flex items-center space-x-4">
+            <Link
+              href="/blog"
+              className="text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors"
+            >
+              Blog
+            </Link>
+          </nav>
+        </div>
         <div className="flex items-center gap-2 sm:gap-3">
           <GitHubLink
             href={GITHUB_URL}
