@@ -47,6 +47,10 @@ const config = {
       colors: {
         ...colors,
       },
+      animation: {
+        'pulse-slow': 'pulse 7s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-slower': 'pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
     },
   },
   plugins: [
