@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     publishedTime: '2024-03-15T00:00:00Z',
     images: [
       {
-        url: 'https://ctoplanner.com/images/blog/strategic-planning-long-weekends.jpg',
+        url: 'https://images.unsplash.com/photo-1496450681664-3df85efbd29f',
         width: 1200,
         height: 630,
         alt: 'Calendar showing long weekend planning strategy',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Strategic Planning for Long Weekends',
     description: 'Learn how to strategically plan your time off around holidays and weekends to maximize your breaks.',
-    images: ['https://ctoplanner.com/images/blog/strategic-planning-long-weekends.jpg'],
+    images: ['https://images.unsplash.com/photo-1496450681664-3df85efbd29f'],
   },
   alternates: {
     canonical: 'https://ctoplanner.com/blog/strategic-planning-long-weekends',
@@ -43,6 +43,7 @@ export default function StrategicPlanningLongWeekends() {
       author="Alex Thompson"
       authorRole="Time-Off Planning Strategist"
       tags={["Long Weekends", "PTO Optimization", "Holiday Planning"]}
+      featuredImage="https://images.unsplash.com/photo-1496450681664-3df85efbd29f?auto=format&fit=crop&w=1200&q=80"
     >
       <section>
         <h2 id="introduction">Introduction</h2>
@@ -54,9 +55,10 @@ export default function StrategicPlanningLongWeekends() {
         </p>
         
         <BlogPostImage 
-          src="/images/calendar-planning.jpg" 
+          src="https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?auto=format&fit=crop&w=1200&q=80" 
           alt="Calendar with highlighted long weekends and holidays" 
-          caption="Strategic planning can turn regular weekends into rejuvenating mini-vacations" 
+          caption="Strategic planning can turn regular weekends into rejuvenating mini-vacations. Photo by Annie Spratt on Unsplash." 
+          priority={true}
         />
       </section>
 
@@ -291,6 +293,37 @@ export default function StrategicPlanningLongWeekends() {
           Ready to start planning your strategic long weekends? Use our <a href="/">CTO Days Optimizer</a> to identify 
           the best opportunities to maximize your time off throughout the year.
         </p>
+      </section>
+
+      <section>
+        <h2 id="mini-vacations">Weekend Mini-Vacations</h2>
+        <p>
+          Even a regular weekend can be turned into a mini-vacation with the right approach. Planning activities in 
+          advance, unplugging from work, and treating it as a real vacation can make a standard weekend feel much more restorative.
+        </p>
+        
+        <BlogPostImage 
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" 
+          alt="Beach scene representing a weekend getaway" 
+          caption="Even a short weekend trip to a nearby destination can provide significant mental benefits. Photo by Sean O. on Unsplash." 
+        />
+      </section>
+
+      <section>
+        <h2 id="local-destination-ideas">Local Destination Ideas</h2>
+        <ul>
+          <li>National or state parks within a 2-3 hour drive</li>
+          <li>Nearby cities with vibrant downtown areas</li>
+          <li>Beaches, lakes, or hiking trails</li>
+          <li>Local resorts offering weekend packages</li>
+          <li>Cultural events and festivals in neighboring communities</li>
+        </ul>
+        
+        <BlogPostImage 
+          src="https://images.unsplash.com/photo-1502957291543-d85480254bf8?auto=format&fit=crop&w=1200&q=80" 
+          alt="Scenic overlook on a hiking trail" 
+          caption="Local destinations can often provide rich experiences without extensive travel time. Photo by Billy Onjea on Unsplash." 
+        />
       </section>
     </BlogPostLayout>
   );

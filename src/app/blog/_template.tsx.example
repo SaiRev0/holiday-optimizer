@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     publishedTime: '2024-00-00T00:00:00Z', // Update with actual publishing date
     images: [
       {
-        url: 'https://ctoplanner.com/images/blog/article-slug/featured.jpg', // Update with actual image path
+        url: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b', // Example Unsplash featured image
         width: 1200,
         height: 630,
         alt: 'Descriptive alt text for your featured image',
@@ -34,7 +34,7 @@ export default function ArticleName() {
       date="Month DD, YYYY" // Display date
       readTime="X min read" // Estimate read time
       publishedDate="2024-00-00T00:00:00Z" // ISO format date for schema, should match metadata
-      featuredImage="/images/blog/article-slug/featured.jpg" // Update with actual image path
+      featuredImage="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=1200&q=80" // Example Unsplash featured image
       tags={["Tag 1", "Tag 2", "Tag 3"]} // Update with relevant tags
       author="Waqar Kalim" // Default author
       authorRole="Developer & Time Management Enthusiast" // Default role
@@ -48,9 +48,9 @@ export default function ArticleName() {
         </p>
 
         <BlogPostImage
-          src="/images/blog/article-slug/example-image.jpg" // Update with actual image path
+          src="https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&w=1200&q=80" 
           alt="Descriptive alt text for the image"
-          caption="Optional caption explaining the significance of this image"
+          caption="Optional caption explaining the significance of this image. Photo by Erik Lucatero on Unsplash."
           priority={true} // Set to true for above-the-fold images
         />
       </section>
@@ -82,9 +82,9 @@ export default function ArticleName() {
         </ul>
 
         <BlogPostImage
-          src="/images/blog/article-slug/another-image.jpg" // Update with actual image path
+          src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&w=1200&q=80" 
           alt="Descriptive alt text for another image"
-          caption="Images break up text and illustrate key concepts"
+          caption="Images break up text and illustrate key concepts. Photo by Yuri Levin on Unsplash."
         />
       </section>
 
@@ -131,6 +131,12 @@ export default function ArticleName() {
           <li><strong>Other relevant tools:</strong> Mention complementary tools or resources</li>
           <li><strong>Additional reading:</strong> Suggest other articles for further learning</li>
         </ul>
+        
+        <BlogPostImage
+          src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80" 
+          alt="Person using a productivity tool on laptop"
+          caption="The right tools can make implementing these strategies much easier. Photo by Glenn Carstens-Peters on Unsplash."
+        />
       </section>
 
       <section>

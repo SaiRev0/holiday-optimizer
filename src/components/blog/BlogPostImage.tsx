@@ -8,6 +8,7 @@ interface BlogPostImageProps {
   width?: number;
   height?: number;
   className?: string;
+  priority?: boolean;
 }
 
 export const BlogPostImage = ({
@@ -17,6 +18,7 @@ export const BlogPostImage = ({
                                 width = 1200,
                                 height = 800,
                                 className,
+                                priority = false,
                               }: BlogPostImageProps) => {
   return (
     <figure className={cn('my-8', className)}>
@@ -28,6 +30,7 @@ export const BlogPostImage = ({
             alt={alt}
             width={width}
             height={height}
+            loading={priority ? "eager" : "lazy"}
             className="w-full h-auto object-cover"
           />
         ) : (

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     publishedTime: '2024-03-15T00:00:00Z',
     images: [
       {
-        url: 'https://ctoplanner.com/images/blog/maximize-pto-days-2024/featured.jpg',
+        url: 'https://images.unsplash.com/photo-1553544260-f87e713d9ba1',
         width: 1200,
         height: 630,
         alt: 'Calendar showing PTO optimization strategy',
@@ -34,7 +34,7 @@ export default function MaximizePTODays2024() {
       date="March 15, 2024"
       readTime="8 min read"
       publishedDate="2024-03-15T00:00:00Z"
-      featuredImage="/images/blog/maximize-pto-days-2024/featured.jpg"
+      featuredImage="https://images.unsplash.com/photo-1553544260-f87e713d9ba1?auto=format&fit=crop&w=1200&q=80"
       tags={["PTO Optimization", "Strategic Planning", "Time Off"]}
     >
       <section>
@@ -47,9 +47,9 @@ export default function MaximizePTODays2024() {
         </p>
         
         <BlogPostImage
-          src="/images/blog/maximize-pto-days-2024/calendar-planning.jpg"
+          src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80"
           alt="Person planning PTO days on a calendar for 2024"
-          caption="Strategic placement of PTO days can significantly extend your time off."
+          caption="Strategic placement of PTO days can significantly extend your time off. Photo by Estée Janssens on Unsplash."
         />
       </section>
 
@@ -97,9 +97,9 @@ export default function MaximizePTODays2024() {
         </p>
 
         <BlogPostImage
-          src="/images/blog/maximize-pto-days-2024/holiday-calendar.jpg"
+          src="https://images.unsplash.com/photo-1668754066297-c61fbb6df933?auto=format&fit=crop&w=1200&q=80"
           alt="2024 calendar with key holidays highlighted"
-          caption="Key U.S. holidays in 2024 provide excellent opportunities for PTO optimization."
+          caption="Key U.S. holidays in 2024 provide excellent opportunities for PTO optimization. Photo by Towfiqu barbhuiya on Unsplash."
         />
 
         <h3 id="memorial-day">Memorial Day (May 27, 2024 - Monday)</h3>
@@ -149,9 +149,9 @@ export default function MaximizePTODays2024() {
         </p>
         
         <BlogPostImage
-          src="/images/blog/maximize-pto-days-2024/bridge-technique.jpg"
+          src="https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?auto=format&fit=crop&w=1200&q=80"
           alt="Visual representation of the Bridge Technique for PTO planning"
-          caption="The Bridge Technique connects weekends with mid-week holidays."
+          caption="The Bridge Technique connects weekends with mid-week holidays. Photo by Debby Hudson on Unsplash."
         />
 
         <h3 id="bookend-approach">The "Bookend" Approach</h3>
@@ -188,6 +188,12 @@ export default function MaximizePTODays2024() {
           <li><strong>PTO tracking apps:</strong> Tools like Bamboo HR or Vacation Tracker help manage your time off balance</li>
           <li><strong>Travel planning apps:</strong> Services like Google Flights or Skyscanner can alert you to deals during your planned time off</li>
         </ul>
+        
+        <BlogPostImage
+          src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=1200&q=80"
+          alt="Person using laptop for planning time off"
+          caption="Technology tools make strategic PTO planning easier and more effective. Photo by Benjamin Dada on Unsplash."
+        />
       </section>
 
       <section>

@@ -125,6 +125,27 @@ export default function TermsOfService() {
               and official calendars. Service availability and accuracy depend on browser features and third-party providers.
             </p>
           </section>
+          
+          <section className="mb-6">
+            <h2 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
+              <span className="text-base">🤖</span> AI-Generated Content
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              The blog articles and content on {PROJECT_NAME} are primarily generated using artificial intelligence technology. 
+              While we strive for accuracy and quality, you should be aware that:
+            </p>
+            <ul className="list-disc pl-4 mt-1 space-y-0.5 text-gray-600 dark:text-gray-400">
+              <li>Content may contain inaccuracies, errors, or outdated information</li>
+              <li>Information provided should be independently verified before making decisions</li>
+              <li>We do not guarantee the accuracy, completeness, or reliability of AI-generated content</li>
+              <li>Content is provided for general informational purposes only and not as professional advice</li>
+              <li>Opinions, suggestions, and recommendations in the content should not be construed as expert guidance</li>
+            </ul>
+            <p className="mt-2 text-xs italic text-gray-500 dark:text-gray-400">
+              Users are responsible for independently verifying any information found in our blog articles or guides before
+              relying on it for personal or professional decisions.
+            </p>
+          </section>
 
           <section className="mb-6">
             <h2 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
