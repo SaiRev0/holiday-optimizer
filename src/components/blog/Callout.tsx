@@ -1,66 +1,66 @@
 import React from 'react';
-import { Info, AlertCircle, LightbulbIcon } from 'lucide-react';
+import { Info, AlertTriangle, Check, MoveRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type CalloutType = 'info' | 'tip' | 'warning';
+type CalloutType = 'info' | 'warning' | 'tip' | 'success';
 
 interface CalloutProps {
-  children: React.ReactNode;
   title?: string;
+  children: React.ReactNode;
   type?: CalloutType;
-  icon?: React.ReactNode;
   className?: string;
 }
 
-export const Callout = ({
-  children,
-  title,
-  type = 'info',
-  icon,
-  className,
-}: CalloutProps) => {
-  // Define the styling based on callout type
+export function Callout({ title, children, type = 'info', className }: CalloutProps) {
+  const Icon = {
+    info: Info,
+    warning: AlertTriangle,
+    tip: MoveRight,
+    success: Check,
+  }[type];
+
   const styles = {
     info: {
       container: 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800',
+      icon: 'text-blue-500 dark:text-blue-400',
       title: 'text-blue-800 dark:text-blue-300',
-      icon: <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0" />,
-    },
-    tip: {
-      container: 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800',
-      title: 'text-green-800 dark:text-green-300',
-      icon: <LightbulbIcon className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />,
     },
     warning: {
       container: 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800',
+      icon: 'text-amber-500 dark:text-amber-400',
       title: 'text-amber-800 dark:text-amber-300',
-      icon: <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0" />,
     },
-  };
-
-  const { container, title: titleStyle, icon: defaultIcon } = styles[type];
+    tip: {
+      container: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800',
+      icon: 'text-emerald-500 dark:text-emerald-400',
+      title: 'text-emerald-800 dark:text-emerald-300',
+    },
+    success: {
+      container: 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800',
+      icon: 'text-green-500 dark:text-green-400',
+      title: 'text-green-800 dark:text-green-300',
+    },
+  }[type];
 
   return (
-    <div
-      className={cn(
-        'p-4 rounded-lg border my-6 text-base',
-        container,
-        className
-      )}
-    >
-      <div className="flex gap-3">
-        <div className="mt-1">{icon || defaultIcon}</div>
-        <div>
+    <div className={cn(
+      'my-6 rounded-lg border p-5 not-prose',
+      styles.container,
+      className
+    )}>
+      <div className="flex items-start">
+        <Icon className={cn('h-5 w-5 mr-3 mt-0.5', styles.icon)} />
+        <div className="flex-1">
           {title && (
-            <h4 className={cn('font-semibold mb-1', titleStyle)}>
+            <h5 className={cn('font-semibold mb-2', styles.title)}>
               {title}
-            </h4>
+            </h5>
           )}
-          <div className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+          <div className="text-gray-700 dark:text-gray-300">
             {children}
           </div>
         </div>
       </div>
     </div>
   );
-}; 
+} 
