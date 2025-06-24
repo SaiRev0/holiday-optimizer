@@ -43,7 +43,6 @@ export const metadata: Metadata = {
 };
 
 export default async function HolidaysIndexPage() {
-  const countries = getAvailableCountries();
   const currentYear = new Date().getFullYear();
 
   // Add schema.org structured data for better SEO
@@ -134,8 +133,8 @@ export default async function HolidaysIndexPage() {
               Currently Available: India 🇮🇳
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              We've started with a comprehensive coverage of India, including all 28 states and 8
-              union territories. Each location includes both national and regional holidays with
+              We&apos;ve started with a comprehensive coverage of India, including all 28 states and
+              8 union territories. Each location includes both national and regional holidays with
               cultural context.
             </p>
           </div>
@@ -185,8 +184,9 @@ export default async function HolidaysIndexPage() {
                 Expanding Based on Your Requests
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                We're continuously expanding our holiday calendar based on user demand. Request your
-                country and we'll prioritize adding comprehensive holiday data for your region.
+                We&apos;re continuously expanding our holiday calendar based on user demand. Request
+                your country and we&apos;ll prioritize adding comprehensive holiday data for your
+                region.
               </p>
             </div>
 
@@ -230,7 +230,7 @@ export default async function HolidaysIndexPage() {
               <div className="inline-flex items-center px-6 py-3 bg-teal-100 dark:bg-teal-900/30 rounded-lg">
                 <GlobeIcon className="h-5 w-5 text-teal-600 dark:text-teal-400 mr-2" />
                 <span className="text-teal-800 dark:text-teal-200 font-medium">
-                  Want your country added? Let us know and we'll prioritize it!
+                  Want your country added? Let us know and we&apos;ll prioritize it!
                 </span>
               </div>
             </div>
@@ -244,8 +244,8 @@ export default async function HolidaysIndexPage() {
               Why Choose Our Holiday Calendar?
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              We don't just list holidays – we provide comprehensive information to help you plan
-              better vacations and understand cultural significance.
+              We don&apos;t just list holidays – we provide comprehensive information to help you
+              plan better vacations and understand cultural significance.
             </p>
           </div>
 
@@ -309,14 +309,14 @@ export default async function HolidaysIndexPage() {
                   context and local significance.
                 </p>
                 <p>
-                  Starting with India's rich tapestry of national and regional celebrations, we've
-                  created the most detailed holiday calendar available. From major festivals like
-                  Diwali and Holi to state-specific observances, we cover it all.
+                  Starting with India&apos;s rich tapestry of national and regional celebrations,
+                  we&apos;ve created the most detailed holiday calendar available. From major
+                  festivals like Diwali and Holi to state-specific observances, we cover it all.
                 </p>
                 <p>
-                  <strong>Planning to expand?</strong> We're constantly evaluating user requests to
-                  determine which countries to add next. Each new addition receives the same
-                  comprehensive treatment – detailed regional coverage, cultural context, and
+                  <strong>Planning to expand?</strong> We&apos;re constantly evaluating user
+                  requests to determine which countries to add next. Each new addition receives the
+                  same comprehensive treatment – detailed regional coverage, cultural context, and
                   integration with our vacation optimization tools.
                 </p>
               </div>
