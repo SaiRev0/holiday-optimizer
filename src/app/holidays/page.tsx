@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAvailableCountries } from '@/services/holidays';
 import {
   CalendarIcon,
   CheckCircleIcon,
