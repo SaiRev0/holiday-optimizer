@@ -1,9 +1,14 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { getAvailableCountries } from '@/services/holidays';
-import { CalendarIcon, CheckCircleIcon, GlobeIcon } from 'lucide-react';
-import { continents, getCountryData, TCountryCode } from 'countries-list';
-import CountrySearch from '@/components/features/holidays/CountrySearch';
+import {
+  CalendarIcon,
+  CheckCircleIcon,
+  GlobeIcon,
+  MapIcon,
+  TrendingUpIcon,
+  UsersIcon,
+} from 'lucide-react';
 import {
   PageContent,
   PageDescription,
@@ -13,24 +18,24 @@ import {
 } from '@/components/layout/PageLayout';
 
 export const metadata: Metadata = {
-  title: 'Public Holidays Around the World | Global Holiday Calendar',
+  title: 'Public Holidays Calendar | Holiday Optimizer',
   description:
-    'Explore public holidays, bank holidays, and national observances for countries worldwide. Find holiday dates for over 100 countries to plan your international travel, business operations, and cultural events.',
+    'Comprehensive public holiday calendar for India with detailed state-wise holidays. Plan your vacations and time off with accurate holiday information for all Indian states and union territories.',
   keywords:
-    'public holidays, national holidays, bank holidays, world holidays, international holidays, global holidays, country holidays, holiday calendar, days off, vacation planning',
+    'India public holidays, Indian holidays, state holidays India, regional holidays, national holidays India, holiday calendar India, vacation planning India',
   openGraph: {
-    title: 'Public Holidays Around the World | Global Holiday Calendar',
+    title: 'India Public Holidays Calendar | Holiday Optimizer',
     description:
-      'Explore public holidays and observances for countries around the world. Find information about national holidays, bank holidays, and more.',
+      'Complete holiday calendar for India with state-wise public holidays. Plan your vacations and optimize your time off with our comprehensive Indian holiday guide.',
     type: 'website',
     url: 'https://holidayoptimizer.com/holidays',
     siteName: 'Holiday Optimizer',
   },
   twitter: {
     card: 'summary',
-    title: 'Public Holidays Around the World | Global Holiday Calendar',
+    title: 'India Public Holidays Calendar | Holiday Optimizer',
     description:
-      'Explore public holidays and observances for countries around the world. Find information about national holidays, bank holidays, and more.',
+      'Complete holiday calendar for India with state-wise public holidays. Plan your vacations and optimize your time off.',
   },
   alternates: {
     canonical: 'https://holidayoptimizer.com/holidays',
@@ -39,48 +44,21 @@ export const metadata: Metadata = {
 
 export default async function HolidaysIndexPage() {
   const countries = getAvailableCountries();
-
-  // Sort countries alphabetically by name
-  const sortedCountries = [...countries].sort((a, b) => a.name.localeCompare(b.name));
-
-  // Group countries by continent/region for better organization
-  const getCountryGroup = (country: TCountryCode) => {
-    return continents[getCountryData(country).continent] || 'Other';
-  };
-
-  const groupedCountries: Record<string, Array<{ countryCode: string; name: string }>> = {};
-
-  for (const country of sortedCountries) {
-    const group = getCountryGroup(country.countryCode as TCountryCode);
-    if (!groupedCountries[group]) {
-      groupedCountries[group] = [];
-    }
-    groupedCountries[group].push(country);
-  }
-
-  // Sort groups by name
-  const sortedGroups = Object.keys(groupedCountries).sort();
+  const currentYear = new Date().getFullYear();
 
   // Add schema.org structured data for better SEO
   const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Public Holidays Around the World',
+    name: 'Public Holidays Calendar',
     description:
-      'Explore public holidays and observances for countries around the world. Find information about national holidays, bank holidays, and more.',
+      'Comprehensive public holiday calendar for India with detailed state-wise holidays and vacation planning tools.',
     url: 'https://holidayoptimizer.com/holidays',
     mainEntity: {
-      '@type': 'ItemList',
-      itemListElement: sortedGroups.map((group, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: group,
-        item: {
-          '@type': 'Thing',
-          name: group,
-          description: `Public holidays in ${group} countries`,
-        },
-      })),
+      '@type': 'Organization',
+      name: 'Holiday Optimizer',
+      description: 'Your comprehensive guide to public holidays and vacation optimization',
+      url: 'https://holidayoptimizer.com',
     },
   };
 
@@ -93,47 +71,55 @@ export default async function HolidaysIndexPage() {
       />
 
       {/* Hero section */}
-      <PageHeader className="bg-gradient-to-b from-gray-900 to-gray-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-400 via-indigo-500 to-blue-600"></div>
+      <PageHeader className="bg-gradient-to-b from-teal-900 to-teal-800 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-400 via-orange-500 to-red-600"></div>
 
         <div className="relative z-10">
           <div className="inline-flex items-center justify-center mb-5 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white">
             <CalendarIcon className="h-4 w-4 mr-2" aria-hidden="true" />
-            <span className="text-sm font-medium">Worldwide Public Holidays</span>
+            <span className="text-sm font-medium">🇮🇳 India Public Holidays {currentYear}</span>
           </div>
 
           <PageTitle className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-white">
-            Discover Public Holidays <br className="hidden sm:block" />
-            Around the World
+            Complete India <br className="hidden sm:block" />
+            Holiday Calendar
           </PageTitle>
 
-          <PageDescription className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
-            Find public holidays for {sortedCountries.length} countries worldwide. Plan your
-            travels, business operations, or simply learn about different cultural celebrations.
+          <PageDescription className="text-xl text-teal-100 mb-10 max-w-3xl mx-auto">
+            Discover public holidays for all Indian states and union territories. Plan your perfect
+            vacation with our comprehensive holiday calendar covering national and regional
+            celebrations.
           </PageDescription>
 
           <div className="flex flex-wrap gap-4 justify-center mb-10">
             <Link
-              href="#browse-countries"
-              className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors flex items-center"
+              href="/holidays/in"
+              className="px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg transition-colors flex items-center text-lg"
             >
-              <GlobeIcon className="h-5 w-5 mr-2" aria-hidden="true" />
-              Browse Countries
+              <MapIcon className="h-5 w-5 mr-2" aria-hidden="true" />
+              Explore Indian States
+            </Link>
+            <Link
+              href="/"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold rounded-lg transition-colors flex items-center text-lg border border-white/20"
+            >
+              <CalendarIcon className="h-5 w-5 mr-2" aria-hidden="true" />
+              Optimize Your Holidays
             </Link>
           </div>
 
           <div className="flex flex-wrap gap-2 justify-center">
-            <div className="inline-flex items-center px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80">
-              <span>National Holidays</span>
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90">
+              <span>🏛️ National Holidays</span>
             </div>
-            <div className="inline-flex items-center px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80">
-              <span>Bank Holidays</span>
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90">
+              <span>🎯 State-Specific Holidays</span>
             </div>
-            <div className="inline-flex items-center px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80">
-              <span>Regional Observances</span>
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90">
+              <span>🎉 Regional Festivals</span>
             </div>
-            <div className="inline-flex items-center px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80">
-              <span>School Holidays</span>
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90">
+              <span>🏦 Bank Holidays</span>
             </div>
           </div>
         </div>
@@ -141,104 +127,199 @@ export default async function HolidaysIndexPage() {
 
       {/* Main content */}
       <PageContent>
-        <section className="container mx-auto px-4 py-16 max-w-6xl" id="browse-countries">
-          <div className="mb-10 text-center">
+        {/* Featured Country Section */}
+        <section className="container mx-auto px-4 py-16 max-w-6xl">
+          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Browse Countries
+              Currently Available: India 🇮🇳
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Select a country to view its public holidays, bank holidays, and observances.
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              We've started with a comprehensive coverage of India, including all 28 states and 8
+              union territories. Each location includes both national and regional holidays with
+              cultural context.
             </p>
           </div>
 
-          {/* Country search and groups */}
-          <CountrySearch groupedCountries={groupedCountries} sortedGroups={sortedGroups} />
+          <div className="max-w-2xl mx-auto">
+            <Link
+              href="/holidays/in"
+              className="group block bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl p-8 border border-amber-200 dark:border-amber-800 hover:shadow-lg transition-all duration-300"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="text-6xl">🇮🇳</div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                      India Holiday Calendar
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mt-2">
+                      Explore holidays for all 36 states and union territories
+                    </p>
+                    <div className="flex items-center text-sm text-amber-600 dark:text-amber-400 mt-3">
+                      <CheckCircleIcon className="h-4 w-4 mr-1" />
+                      <span>Complete coverage • Updated for {currentYear}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-amber-500 dark:text-amber-400 group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors">
+                  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          </div>
         </section>
 
-        {/* Features section */}
-        <section className="bg-gray-100 dark:bg-gray-800/50 py-16 mt-8">
+        {/* Coming Soon Section */}
+        <section className="bg-gray-50 dark:bg-gray-800/50 py-16">
           <div className="container mx-auto px-4 max-w-6xl">
-            <div className="mb-10 text-center">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                Why Use Our Holiday Calendar?
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center justify-center">
+                <TrendingUpIcon className="h-8 w-8 mr-3 text-teal-600 dark:text-teal-400" />
+                Expanding Based on Your Requests
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                Our comprehensive public holiday database offers several benefits for travelers,
-                businesses, and the culturally curious.
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                We're continuously expanding our holiday calendar based on user demand. Request your
+                country and we'll prioritize adding comprehensive holiday data for your region.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center mb-4">
-                  <GlobeIcon className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center mx-auto mb-4">
+                  <UsersIcon className="h-8 w-8 text-teal-600 dark:text-teal-400" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  Comprehensive Coverage
+                  User-Driven
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Access holiday information for {sortedCountries.length} countries worldwide,
-                  including regional and local observances.
+                  We add countries based on actual user requests and demand
                 </p>
               </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center mx-auto mb-4">
+                  <CheckCircleIcon className="h-8 w-8 text-teal-600 dark:text-teal-400" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Quality First
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Each country gets comprehensive coverage with regional details
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center mx-auto mb-4">
+                  <TrendingUpIcon className="h-8 w-8 text-teal-600 dark:text-teal-400" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Regular Updates
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Holiday data is kept current and accurate year over year
+                </p>
+              </div>
+            </div>
 
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center mb-4">
-                  <CalendarIcon className="h-6 w-6 text-teal-600 dark:text-teal-400" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  Current & Upcoming Years
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  View holidays for both the current and upcoming year to plan ahead for vacations,
-                  business operations, and events.
-                </p>
+            <div className="text-center">
+              <div className="inline-flex items-center px-6 py-3 bg-teal-100 dark:bg-teal-900/30 rounded-lg">
+                <GlobeIcon className="h-5 w-5 text-teal-600 dark:text-teal-400 mr-2" />
+                <span className="text-teal-800 dark:text-teal-200 font-medium">
+                  Want your country added? Let us know and we'll prioritize it!
+                </span>
               </div>
+            </div>
+          </div>
+        </section>
 
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center mb-4">
-                  <CheckCircleIcon className="h-6 w-6 text-teal-600 dark:text-teal-400" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  Accurate & Reliable
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  Our data is based on reliable sources and regularly updated to ensure accuracy and
-                  reliability.
-                </p>
+        {/* Features section */}
+        <section className="container mx-auto px-4 py-16 max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              Why Choose Our Holiday Calendar?
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              We don't just list holidays – we provide comprehensive information to help you plan
+              better vacations and understand cultural significance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center mb-4">
+                <MapIcon className="h-6 w-6 text-amber-600 dark:text-amber-400" />
               </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Regional Precision
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Get state and region-specific holidays, not just national ones. Perfect for local
+                planning and cultural understanding.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="w-12 h-12 rounded-full bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center mb-4">
+                <CalendarIcon className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Vacation Optimization
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Seamlessly integrate with our vacation optimizer to plan the perfect time off around
+                public holidays.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="w-12 h-12 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center mb-4">
+                <CheckCircleIcon className="h-6 w-6 text-green-600 dark:text-green-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Always Accurate
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Our holiday data is carefully curated and regularly updated to ensure you never miss
+                important dates.
+              </p>
             </div>
           </div>
         </section>
 
         {/* About section */}
-        <section className="container mx-auto px-4 py-16 max-w-3xl">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
-            <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                <CalendarIcon className="h-5 w-5 mr-2 text-teal-600 dark:text-teal-400" />
-                About Public Holidays
-              </h2>
-            </div>
+        <section className="bg-gray-50 dark:bg-gray-800/50 py-16">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700">
+              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+                  <CalendarIcon className="h-5 w-5 mr-2 text-teal-600 dark:text-teal-400" />
+                  About Our Holiday Calendar
+                </h2>
+              </div>
 
-            <div className="p-6 md:p-8 space-y-4 text-gray-600 dark:text-gray-300">
-              <p>
-                Public holidays, also known as national holidays or legal holidays, are days when
-                most businesses, schools, and government offices are closed. These holidays are
-                established by law and typically commemorate important historical, cultural, or
-                religious events.
-              </p>
-              <p>
-                Different countries have their own unique set of public holidays that reflect their
-                history, culture, and traditions. Some holidays, like New Year&apos;s Day, are
-                celebrated in many countries around the world, while others are specific to certain
-                regions or cultures.
-              </p>
-              <p>
-                Use this resource to explore public holidays for countries around the world and plan
-                your travels, business operations, or simply learn about different cultural
-                celebrations.
-              </p>
+              <div className="p-6 md:p-8 space-y-4 text-gray-600 dark:text-gray-300">
+                <p>
+                  Our holiday calendar goes beyond simple date lists. We provide comprehensive
+                  coverage of public holidays, bank holidays, and regional observances with cultural
+                  context and local significance.
+                </p>
+                <p>
+                  Starting with India's rich tapestry of national and regional celebrations, we've
+                  created the most detailed holiday calendar available. From major festivals like
+                  Diwali and Holi to state-specific observances, we cover it all.
+                </p>
+                <p>
+                  <strong>Planning to expand?</strong> We're constantly evaluating user requests to
+                  determine which countries to add next. Each new addition receives the same
+                  comprehensive treatment – detailed regional coverage, cultural context, and
+                  integration with our vacation optimization tools.
+                </p>
+              </div>
             </div>
           </div>
         </section>

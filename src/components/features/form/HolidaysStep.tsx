@@ -89,7 +89,7 @@ export const HolidaysStep = () => {
         };
       })
     );
-  }, [holidaysData, setDetectedHolidays]);
+  }, [holidaysData]); // Remove setDetectedHolidays from dependencies
 
   const handleStateChange = (stateCode: string): void => {
     dispatch({ type: 'SET_STATE', payload: stateCode });

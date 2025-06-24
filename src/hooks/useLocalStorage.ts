@@ -35,7 +35,7 @@ export function useLocalStorage() {
         dispatch({ type: 'ADD_COMPANY_DAY', payload: day });
       });
     }
-  }, [dispatch, selectedYear, clearHolidays, clearCompanyDays]); // Re-run when selected year changes
+  }, [dispatch, selectedYear]); // Re-run when selected year changes
 
   // Sync individual holiday changes
   useEffect(() => {

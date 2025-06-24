@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { getRegions, getStates } from '@/services/holidays';
 import RelatedLocations from './RelatedLocations';
 import { convertToDateObject } from '@/utils/dates';
+const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
 
 interface HolidayPageContentProps {
   title: string;
@@ -196,15 +197,13 @@ export default function HolidayPageContent({
         '@type': 'ListItem',
         position: 1,
         name: 'Holidays',
-        item: 'https://holidayoptimizer.com/holidays',
+        item: `${NEXT_PUBLIC_URL}/holidays`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: location.country,
-        item: countryCode
-          ? `https://holidayoptimizer.com/holidays/${countryCode.toLowerCase()}`
-          : '',
+        item: countryCode ? `${NEXT_PUBLIC_URL}/holidays/${countryCode.toLowerCase()}` : '',
       },
       ...(location.state
         ? [
@@ -214,7 +213,7 @@ export default function HolidayPageContent({
               name: location.state,
               item:
                 countryCode && stateCode
-                  ? `https://holidayoptimizer.com/holidays/${countryCode.toLowerCase()}/${stateCode.toLowerCase()}`
+                  ? `${NEXT_PUBLIC_URL}/holidays/${countryCode.toLowerCase()}/${stateCode.toLowerCase()}`
                   : '',
             },
           ]
@@ -227,7 +226,7 @@ export default function HolidayPageContent({
               name: location.region,
               item:
                 countryCode && stateCode && regionCode
-                  ? `https://holidayoptimizer.com/holidays/${countryCode.toLowerCase()}/${stateCode.toLowerCase()}/${regionCode.toLowerCase()}`
+                  ? `${NEXT_PUBLIC_URL}/holidays/${countryCode.toLowerCase()}/${stateCode.toLowerCase()}/${regionCode.toLowerCase()}`
                   : '',
             },
           ]
@@ -242,7 +241,7 @@ export default function HolidayPageContent({
     name: title,
     description: `Complete list of public holidays, bank holidays, and regional observances in ${location.country}${location.state ? `, ${location.state}` : ''}${location.region ? `, ${location.region}` : ''} for ${currentYear} and ${nextYear}. Plan your vacation days, business operations, and travel itinerary with our comprehensive holiday calendar.`,
     url: countryCode
-      ? `https://holidayoptimizer.com/holidays/${countryCode.toLowerCase()}${stateCode ? `/${stateCode.toLowerCase()}` : ''}${regionCode ? `/${regionCode.toLowerCase()}` : ''}`
+      ? `${NEXT_PUBLIC_URL}/holidays/${countryCode.toLowerCase()}${stateCode ? `/${stateCode.toLowerCase()}` : ''}${regionCode ? `/${regionCode.toLowerCase()}` : ''}`
       : '',
     mainEntity: {
       '@type': 'ItemList',
@@ -290,7 +289,7 @@ export default function HolidayPageContent({
       organizer: {
         '@type': 'Organization',
         name: `Government of ${location.country}`,
-        url: 'https://holidayoptimizer.com',
+        url: `${NEXT_PUBLIC_URL}`,
       },
       keywords: `${holiday.name}, ${formattedDate}, ${holiday.type} holiday, ${location.country} holidays${location.state ? `, ${location.state} holidays` : ''}${location.region ? `, ${location.region} holidays` : ''}, upcoming holidays, holiday planning, time off request, vacation days, long weekend, ${daysUntil <= 30 ? 'upcoming celebration, ' : ''}cultural event, traditional holiday`,
     };
@@ -577,7 +576,7 @@ export default function HolidayPageContent({
               return (
                 <li
                   key={index}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                   role="listitem"
                 >
                   <div className="flex items-center px-4 py-3">
@@ -950,7 +949,7 @@ function HolidayList({ holidays }: { holidays: HolidaysTypes.Holiday[] }) {
   return (
     <div className="space-y-6">
       {Object.entries(holidaysByMonth).map(([month, monthHolidays]) => (
-        <div key={month} className="bg-gray-50 dark:bg-gray-750 rounded-lg overflow-hidden">
+        <div key={month} className="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
           <div className="px-4 py-3 flex items-center border-b border-gray-200 dark:border-gray-700">
             <div className="w-8 h-8 rounded-md bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center mr-3">
               <span className="font-medium text-teal-600 dark:text-teal-400">

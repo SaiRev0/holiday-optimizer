@@ -132,7 +132,7 @@ export default async function StateHolidaysPage(props: { params: Promise<Country
   }));
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Schema.org structured data */}
       <WebPageJsonLd
         name={pageTitle}
@@ -152,6 +152,6 @@ export default async function StateHolidaysPage(props: { params: Promise<Country
         currentYearHolidays={holidays}
         nextYearHolidays={nextYearHolidays}
       />
-    </>
+    </div>
   );
 }
