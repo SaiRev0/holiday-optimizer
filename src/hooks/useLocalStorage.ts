@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useOptimizer } from '@/contexts/OptimizerContext';
-import { getStoredCompanyDays, removeStoredCompanyDay, storeCompanyDay } from '@/lib/storage/companyDays';
+import {
+  getStoredCompanyDays,
+  removeStoredCompanyDay,
+  storeCompanyDay,
+} from '@/lib/storage/companyDays';
 import { getStoredHolidays, removeStoredHoliday, storeHoliday } from '@/lib/storage/holidays';
 import { useCompanyDays, useHolidays } from '@/hooks/useOptimizer';
 
@@ -13,8 +17,8 @@ export function useLocalStorage() {
   // Load stored data when year changes or on mount
   useEffect(() => {
     // Clear existing holidays and company days when year changes
-    clearHolidays()
-    clearCompanyDays()
+    clearHolidays();
+    clearCompanyDays();
 
     // Load public holidays for the selected year
     const storedHolidays = getStoredHolidays(selectedYear);
@@ -31,7 +35,7 @@ export function useLocalStorage() {
         dispatch({ type: 'ADD_COMPANY_DAY', payload: day });
       });
     }
-  }, [dispatch, selectedYear]); // Re-run when selected year changes
+  }, [dispatch, selectedYear, clearHolidays, clearCompanyDays]); // Re-run when selected year changes
 
   // Sync individual holiday changes
   useEffect(() => {
@@ -72,4 +76,4 @@ export function useLocalStorage() {
       }
     });
   }, [state.companyDaysOff, selectedYear]);
-} 
+}

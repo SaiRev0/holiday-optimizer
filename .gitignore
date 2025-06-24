@@ -90,3 +90,6 @@ coverage
 
 # TypeScript
 *.tsbuildinfo
+
+# workspace
+holiday-optimizer.code-workspace

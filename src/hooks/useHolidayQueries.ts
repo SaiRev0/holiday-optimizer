@@ -1,6 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAvailableCountries, getPublicHolidaysByCountry, getRegions, getStates } from '@/services/holidays';
+import {
+  getAvailableCountries,
+  getPublicHolidaysByCountry,
+  getRegions,
+  getStates,
+} from '@/services/holidays';
 import { CountryInfo } from '@/lib/storage/location';
+import { getIndianHolidays, getIndianStates } from '@/data/indianHolidays';
 
 /**
  * Hook for fetching available countries using React Query
@@ -10,7 +16,7 @@ export const useCountries = () => {
     queryKey: ['countries'],
     queryFn: getAvailableCountries,
     staleTime: Infinity, // Countries rarely change
-    select: (data) => data.sort((a, b) => a.name.localeCompare(b.name)),
+    select: data => data.sort((a, b) => a.name.localeCompare(b.name)),
   });
 };
 
@@ -53,4 +59,29 @@ export const useHolidaysByCountry = (year: number, countryInfo: CountryInfo) => 
     enabled: !!countryInfo.country && !!year, // Only run if countryCode and year are provided
     staleTime: 1000 * 60 * 60 * 24, // 24 hours - holidays don't change often
   });
-}; 
+};
+
+/**
+ * Hook specifically for fetching Indian holidays
+ * @param year - The year to fetch holidays for
+ * @param state - The state code to fetch holidays for (optional)
+ */
+export const useIndianHolidays = (year: number, state?: string) => {
+  return useQuery({
+    queryKey: ['indian-holidays', year, state],
+    queryFn: () => getIndianHolidays(year, state),
+    enabled: !!year, // Only run if year is provided
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours - holidays don't change often
+  });
+};
+
+/**
+ * Hook for fetching Indian states
+ */
+export const useIndianStates = () => {
+  return useQuery({
+    queryKey: ['indian-states'],
+    queryFn: getIndianStates,
+    staleTime: Infinity, // States rarely change
+  });
+};

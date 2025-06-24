@@ -3,6 +3,7 @@
 import { Logo } from '@/components/Logo';
 import { cn, spacing } from '@/lib/utils';
 import { GitHubLink } from '@/components/ui/github-link';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { GITHUB_URL } from '@/constants';
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
@@ -12,16 +13,15 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className={cn(
-      'sticky top-0 z-40 w-full',
-      'bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm',
-      'border-b border-gray-200/60 dark:border-gray-700/30',
-      'pt-[env(safe-area-inset-top)]',
-    )}>
-      <div className={cn(
-        'mx-auto max-w-7xl',
-        spacing.container,
-      )}>
+    <header
+      className={cn(
+        'sticky top-0 z-40 w-full',
+        'bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm',
+        'border-b border-gray-200/60 dark:border-gray-700/30',
+        'pt-[env(safe-area-inset-top)]'
+      )}
+    >
+      <div className={cn('mx-auto max-w-7xl', spacing.container)}>
         <div className="flex h-14 items-center justify-between">
           <div className="flex items-center">
             <Logo hideTaglineOnMobile={true} />
@@ -41,11 +41,8 @@ const Header = () => {
             </nav>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <GitHubLink
-              href={GITHUB_URL}
-              variant="default"
-              className="hidden md:inline-flex"
-            />
+            <ThemeToggle />
+            <GitHubLink href={GITHUB_URL} variant="default" className="hidden md:inline-flex" />
             <GitHubLink
               href={GITHUB_URL}
               variant="compact"
@@ -61,8 +58,7 @@ const Header = () => {
           </div>
         </div>
         {mobileMenuOpen && (
-          <div
-            className="md:hidden py-2 px-2 border-t border-gray-200 dark:border-gray-700/30 bg-white dark:bg-gray-800 transition-all">
+          <div className="md:hidden py-2 px-2 border-t border-gray-200 dark:border-gray-700/30 bg-white dark:bg-gray-800 transition-all">
             <nav className="flex flex-col space-y-3 py-2">
               <Link
                 href="/how-it-works"
@@ -78,12 +74,11 @@ const Header = () => {
               >
                 Public Holidays
               </Link>
-              <div className="py-1 px-3">
-                <GitHubLink
-                  href={GITHUB_URL}
-                  variant="default"
-                  className="w-full"
-                />
+              <div className="py-1 px-3 flex items-center justify-between">
+                <div className="flex-1">
+                  <GitHubLink href={GITHUB_URL} variant="default" className="w-full" />
+                </div>
+                <ThemeToggle />
               </div>
             </nav>
           </div>

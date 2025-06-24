@@ -1,5 +1,6 @@
 import Holidays, { HolidaysTypes } from 'date-holidays';
 import { CountryInfo } from '@/lib/storage/location';
+import { getIndianHolidays, getIndianStates } from '@/data/indianHolidays';
 
 const lang = 'en';
 
@@ -20,8 +21,14 @@ const allTypesOptions: HolidaysTypes.Options = {
  */
 export const getPublicHolidaysByCountry = (
   year = new Date().getUTCFullYear(),
-  countryInfo: CountryInfo,
+  countryInfo: CountryInfo
 ) => {
+  // Handle India with custom data
+  if (countryInfo.country === 'IN') {
+    return getIndianHolidays(year, countryInfo.state);
+  }
+
+  // Use date-holidays package for other countries
   const hd = new Holidays(countryInfo, publicOptions);
   return hd.getHolidays(year, lang);
 };
@@ -31,8 +38,14 @@ export const getPublicHolidaysByCountry = (
  */
 export const getAllHolidaysByCountry = (
   year = new Date().getUTCFullYear(),
-  countryInfo: CountryInfo,
+  countryInfo: CountryInfo
 ) => {
+  // Handle India with custom data
+  if (countryInfo.country === 'IN') {
+    return getIndianHolidays(year, countryInfo.state);
+  }
+
+  // Use date-holidays package for other countries
   const hd = new Holidays(countryInfo, allTypesOptions);
   return hd.getHolidays(year, lang);
 };
@@ -41,17 +54,20 @@ export const getAllHolidaysByCountry = (
  * Get all available countries
  */
 export const getAvailableCountries = () => {
-  const hd = new Holidays(publicOptions);
-  const countries = hd.getCountries(lang);
-  if (!countries) return [];
-
-  return Object.entries(countries).map(([countryCode, name]) => ({ countryCode, name }))
+  // For now, only return India since we're focusing on India only
+  return [{ countryCode: 'IN', name: 'India' }];
 };
 
 /**
  * Get states for a specific country
  */
 export const getStates = (countryCode: string) => {
+  // Handle India with custom states data
+  if (countryCode === 'IN') {
+    return getIndianStates();
+  }
+
+  // Use date-holidays package for other countries
   const hd = new Holidays(countryCode, publicOptions);
   const states = hd.getStates(countryCode, lang);
   if (!states) return [];
@@ -63,6 +79,12 @@ export const getStates = (countryCode: string) => {
  * Get regions for a specific country and state
  */
 export const getRegions = (countryCode: string, stateCode: string) => {
+  // India doesn't have regions in our current implementation
+  if (countryCode === 'IN') {
+    return [];
+  }
+
+  // Use date-holidays package for other countries
   const hd = new Holidays(countryCode, stateCode, publicOptions);
   const regions = hd.getRegions(countryCode, stateCode, lang);
   if (!regions) return [];
