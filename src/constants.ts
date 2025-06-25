@@ -6,7 +6,7 @@ export const BREAK_LENGTHS = {
   // Long weekends: 3-4 days (e.g., Friday-Monday)
   LONG_WEEKEND: {
     MIN: 3,
-    MAX: 4,  // Reduced from 5 to ensure true "long weekend" feel
+    MAX: 4, // Reduced from 5 to ensure true "long weekend" feel
   },
   // Mini breaks: 5-6 days (perfect for short trips)
   MINI_BREAK: {
@@ -621,15 +621,24 @@ export const COLOR_SCHEMES: ColorSchemes = {
 };
 
 export const MONTHS = [
-  'January', 'February', 'March', 'April',
-  'May', 'June', 'July', 'August',
-  'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ] as const;
 
 export const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
 
 export const PROJECT_NAME = 'Holiday Optimizer';
 
-export const UMAMI_WEBSITE_ID = isProd() ? '7b755cde-abc3-42cd-a004-d0f012ec1757' : '89a9e611-e052-4f9a-aaea-754e67065d3f';
-
-export const GITHUB_URL = "https://github.com/waqarkalim/holiday-optimizer"
+export const UMAMI_WEBSITE_ID = isProd()
+  ? '0f333cdf-f4d2-4545-8c27-07b7a1e02e8b'
+  : '';

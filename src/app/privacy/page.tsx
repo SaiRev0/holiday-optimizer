@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPolicy() {
-  const lastUpdated = 'April 18, 2025'
+  const lastUpdated = 'June 25, 2025'
   return (
     <PageLayout>
       <PageHeader>
@@ -47,8 +47,6 @@ export default function PrivacyPolicy() {
                   <li>Local storage is used to save your preferences and holiday planning data</li>
                   <li>All locally stored data remains on your device and is under your control</li>
                   <li>This data can be cleared at any time by clearing your browser&apos;s local storage</li>
-                  <li>API calls are made to external services for holiday data</li>
-                  <li>Some basic data (like country codes) is shared with external APIs as necessary for core functionality</li>
                   <li>No sensitive personal information such as names, emails, or identifiers is intentionally collected</li>
                 </ul>
                 <p className="mt-2 text-xs italic text-gray-500 dark:text-gray-400">
@@ -58,42 +56,13 @@ export default function PrivacyPolicy() {
 
               <section className="mb-6">
                 <h2 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                  <span className="text-base">🌐</span> External Services
-                </h2>
-                <p className="text-gray-600 dark:text-gray-400">
-                  The following services are utilized:
-                </p>
-                <ul className="list-disc pl-4 mt-1 space-y-0.5 text-gray-600 dark:text-gray-400">
-                  <li>date-holidays package - Used to fetch public holiday information for different countries</li>
-                </ul>
-                <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  The date-holidays package is an open-source library that provides holiday data. It runs entirely within your browser and does not collect or transmit any personal data.
-                </p>
-                <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  For more information about the date-holidays package, you can visit:
-                </p>
-                <ul className="list-disc pl-4 mt-1 space-y-0.5 text-gray-600 dark:text-gray-400">
-                  <li><a href="https://github.com/commenthol/date-holidays" className="text-blue-500 hover:text-blue-600">date-holidays GitHub Repository</a></li>
-                </ul>
-              </section>
-
-              <section className="mb-6">
-                <h2 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
                   <span className="text-base">📊</span> Analytics
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400">
                   Umami Analytics is used to understand how the application is used and improve the user experience.
-                  Umami describes itself as a privacy-focused analytics platform. For detailed information about 
-                  what data Umami collects and how it is used, please refer to 
+                  Umami describes itself as a privacy-focused analytics platform. For detailed information about
+                  what data Umami collects and how it is used, please refer to
                   <a href="https://umami.is/privacy" className="text-blue-500 hover:text-blue-600 ml-1">Umami&apos;s Privacy Policy</a>.
-                </p>
-                <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  Additionally, Cloudflare provides basic analytics as part of their hosting service. This includes 
-                  aggregated data about site visits, page views, and general usage patterns. Cloudflare&apos;s analytics
-                  are designed to respect user privacy while providing essential insights for site maintenance and 
-                  improvement. For more information, please see 
-                  <a href="https://www.cloudflare.com/web-analytics/" className="text-blue-500 hover:text-blue-600 ml-1">Cloudflare Web Analytics</a> and 
-                  <a href="https://www.cloudflare.com/privacypolicy/" className="text-blue-500 hover:text-blue-600 ml-1">Cloudflare&apos;s Privacy Policy</a>.
                 </p>
               </section>
 
@@ -124,19 +93,9 @@ export default function PrivacyPolicy() {
                   <span className="text-base">☁️</span> Hosting Infrastructure
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400">
-                  The application is hosted on Cloudflare Pages. Cloudflare may collect and process certain information
-                  as part of providing their hosting services. For details about what information Cloudflare collects and
-                  how they use it, please refer to <a href="https://www.cloudflare.com/privacypolicy/" className="text-blue-500 hover:text-blue-600">Cloudflare&apos;s Privacy Policy</a>.
-                </p>
-              </section>
-
-              <section className="mb-6">
-                <h2 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                  <span className="text-base">📖</span> Open Source
-                </h2>
-                <p className="text-gray-600 dark:text-gray-400">
-                  This is an open-source project, and its complete source code is available for review.
-                  Privacy practices can be verified by examining the code in the public repository.
+                  The application is hosted on Vercel. Vercel may collect and process certain information
+                  as part of providing their hosting services. For details about what information Vercel collects and
+                  how they use it, please refer to <a href="https://vercel.com/legal/privacy-policy" className="text-blue-500 hover:text-blue-600">Vercel&apos;s Privacy Policy</a>.
                 </p>
               </section>
 

@@ -2,9 +2,7 @@
 
 import { Logo } from '@/components/Logo';
 import { cn, spacing } from '@/lib/utils';
-import { GitHubLink } from '@/components/ui/github-link';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { GITHUB_URL } from '@/constants';
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
@@ -42,12 +40,6 @@ const Header = () => {
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <ThemeToggle />
-            <GitHubLink href={GITHUB_URL} variant="default" className="hidden md:inline-flex" />
-            <GitHubLink
-              href={GITHUB_URL}
-              variant="compact"
-              className="hidden sm:inline-flex md:hidden"
-            />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-1.5 rounded-md text-gray-600 hover:text-teal-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-teal-400 dark:hover:bg-gray-750"
@@ -75,9 +67,6 @@ const Header = () => {
                 Public Holidays
               </Link>
               <div className="py-1 px-3 flex items-center justify-between">
-                <div className="flex-1">
-                  <GitHubLink href={GITHUB_URL} variant="default" className="w-full" />
-                </div>
                 <ThemeToggle />
               </div>
             </nav>
