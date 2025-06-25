@@ -39,8 +39,15 @@ const config = {
   ],
   safelist: [
     {
-      pattern: /(bg|text|ring)-(blue|green|amber|emerald|purple|pink|violet|teal|gray|neutral|transparent|slate|zinc|stone|red|orange|yellow|lime|indigo|sky|cyan|fuchsia|rose|black|white|current|today|past)-(50|100|200|300|400|500|600|700|800|900)/,
-    }
+      pattern:
+        /(bg|text|ring)-(blue|green|amber|emerald|purple|pink|violet|teal|gray|neutral|transparent|slate|zinc|stone|red|orange|yellow|lime|indigo|sky|cyan|fuchsia|rose|black|white|current|today|past)-(50|100|200|300|400|500|600|700|800|900)/,
+      variants: ['dark'],
+    },
+    {
+      pattern:
+        /(bg|text|ring)-(blue|green|amber|emerald|purple|pink|violet|teal|gray|neutral|transparent|slate|zinc|stone|red|orange|yellow|lime|indigo|sky|cyan|fuchsia|rose|black|white|current|today|past)-(50|100|200|300|400|500|600|700|800|900)\/(5|10|20|25|30|40|50|60|70|75|80|90|95)/,
+      variants: ['dark'],
+    },
   ],
   theme: {
     extend: {
