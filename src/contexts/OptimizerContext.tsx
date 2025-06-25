@@ -4,8 +4,10 @@ import { OptimizationStrategy } from '@/types';
 import {
   getStoredDays,
   getStoredStrategy,
+  getStoredSaturdayWorkingDay,
   storeDays,
   storeStrategy,
+  storeSaturdayWorkingDay,
 } from '@/lib/storage/preferences';
 
 interface Holiday {
@@ -21,6 +23,7 @@ interface OptimizerState {
   holidays: Holiday[];
   selectedDates: Date[];
   selectedYear: number;
+  isSaturdayWorkingDay: boolean;
   errors: {
     days?: string;
     companyDay?: {
@@ -51,7 +54,9 @@ type OptimizerAction =
   | { type: 'CLEAR_COMPANY_DAYS' }
   | { type: 'SET_DETECTED_HOLIDAYS'; payload: Array<{ date: string; name: string }> }
   | { type: 'SET_HOLIDAYS'; payload: Array<{ date: string; name: string }> }
-  | { type: 'SET_SELECTED_YEAR'; payload: number };
+  | { type: 'SET_SELECTED_YEAR'; payload: number }
+  | { type: 'SET_SATURDAY_WORKING_DAY'; payload: boolean }
+  | { type: 'LOAD_SATURDAY_WORKING_DAY'; payload: boolean };
 
 const getInitialState = (): OptimizerState => {
   const currentYear = new Date().getFullYear();
@@ -62,6 +67,7 @@ const getInitialState = (): OptimizerState => {
     holidays: [],
     selectedDates: [],
     selectedYear: currentYear,
+    isSaturdayWorkingDay: false,
     errors: {},
   };
 };
@@ -276,13 +282,26 @@ function optimizerReducer(state: OptimizerState, action: OptimizerAction): Optim
       // When year changes, load preferences for the new year
       const storedDays = getStoredDays(action.payload);
       const storedStrategy = getStoredStrategy(action.payload);
+      const storedSaturdayWorkingDay = getStoredSaturdayWorkingDay(action.payload);
 
       return {
         ...initialState,
         selectedYear: action.payload,
         days: storedDays || '',
         strategy: storedStrategy || 'balanced',
+        isSaturdayWorkingDay: storedSaturdayWorkingDay,
       };
+    }
+
+    case 'SET_SATURDAY_WORKING_DAY': {
+      // Store the isSaturdayWorkingDay value in localStorage
+      storeSaturdayWorkingDay(action.payload, state.selectedYear);
+      return { ...state, isSaturdayWorkingDay: action.payload };
+    }
+
+    case 'LOAD_SATURDAY_WORKING_DAY': {
+      // Load isSaturdayWorkingDay without storing to localStorage (used for initial load)
+      return { ...state, isSaturdayWorkingDay: action.payload };
     }
 
     default: {
@@ -304,6 +323,7 @@ export function OptimizerProvider({ children }: { children: ReactNode }) {
     const currentYear = new Date().getFullYear();
     const storedDays = getStoredDays(currentYear);
     const storedStrategy = getStoredStrategy(currentYear);
+    const storedSaturdayWorkingDay = getStoredSaturdayWorkingDay(currentYear);
 
     // Use LOAD actions to avoid triggering localStorage writes
     if (storedDays && storedDays !== '') {
@@ -311,6 +331,9 @@ export function OptimizerProvider({ children }: { children: ReactNode }) {
     }
     if (storedStrategy && storedStrategy !== 'balanced') {
       dispatch({ type: 'LOAD_STRATEGY', payload: storedStrategy });
+    }
+    if (storedSaturdayWorkingDay !== false) {
+      dispatch({ type: 'LOAD_SATURDAY_WORKING_DAY', payload: storedSaturdayWorkingDay });
     }
   }, []); // Empty dependency array - only run on mount
 

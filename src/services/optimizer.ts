@@ -112,7 +112,11 @@ const buildCalendar = (params: OptimizationParams): OptimizedDay[] => {
   for (let d = new Date(startOfYear); d <= endOfYear; d = addDays(d, 1)) {
     const dateStr = formatDate(d);
     const dayOfWeek = d.getDay();
-    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    // If Saturday is a working day, only Sunday (0) is weekend
+    // Otherwise, both Sunday (0) and Saturday (6) are weekends
+    const isWeekend = params.isSaturdayWorkingDay
+      ? dayOfWeek === 0
+      : dayOfWeek === 0 || dayOfWeek === 6;
 
     let isPublicHoliday = false;
     let publicHolidayName: string | undefined;
@@ -279,11 +283,7 @@ const dpExhaustiveSearch = (
 ): DPSolution => {
   const memo = new Map<string, DPSolution>();
 
-  const dp = (
-    idx: number,
-    lastEnd: number,
-    usedPTO: number
-  ): DPSolution => {
+  const dp = (idx: number, lastEnd: number, usedPTO: number): DPSolution => {
     if (idx >= candidates.length) return { totalDaysOff: 0, segments: [], totalPTOUsed: 0 };
     const key = `${idx}-${lastEnd}-${usedPTO}`;
     if (memo.has(key)) return memo.get(key)!;
@@ -344,10 +344,7 @@ const forceExtendSegments = (
   return remainingPTO;
 };
 
-const addForcedSegments = (
-  calendar: OptimizedDay[],
-  remainingPTO: number,
-): Break[] => {
+const addForcedSegments = (calendar: OptimizedDay[], remainingPTO: number): Break[] => {
   const forcedBreaks: Break[] = [];
   const totalDays = calendar.length;
   let i = 0;
@@ -398,10 +395,10 @@ export const optimizeDays = (params: OptimizationParams): OptimizationResult => 
   let candidateSegments: CandidateSegment[] = [];
   if (params.strategy === 'balanced') {
     // For balanced strategy, combine candidates from all ranges.
-    candidateSegments.push(...generateCandidateSegments(calendar, 3, 4));    // longWeekends range
-    candidateSegments.push(...generateCandidateSegments(calendar, 5, 6));    // miniBreaks range
-    candidateSegments.push(...generateCandidateSegments(calendar, 7, 9));    // weekLongBreaks range
-    candidateSegments.push(...generateCandidateSegments(calendar, 10, 15));  // extendedVacations range
+    candidateSegments.push(...generateCandidateSegments(calendar, 3, 4)); // longWeekends range
+    candidateSegments.push(...generateCandidateSegments(calendar, 5, 6)); // miniBreaks range
+    candidateSegments.push(...generateCandidateSegments(calendar, 7, 9)); // weekLongBreaks range
+    candidateSegments.push(...generateCandidateSegments(calendar, 10, 15)); // extendedVacations range
   } else {
     candidateSegments = generateCandidateSegments(calendar, minBreak, maxBreak);
   }
@@ -468,7 +465,7 @@ export const optimizeDays = (params: OptimizationParams): OptimizationResult => 
  * Wrap the synchronous optimizeDays function to make it asynchronous.
  */
 export const optimizeDaysAsync = (params: OptimizationParams): Promise<OptimizationResult> => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     // Using setTimeout to yield execution and allow a loading spinner to render.
     setTimeout(() => {
       const result = optimizeDays(params);

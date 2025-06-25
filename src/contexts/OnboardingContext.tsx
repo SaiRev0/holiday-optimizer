@@ -10,6 +10,7 @@ const ONBOARDING_COMPLETED_KEY = 'holiday-optimizer-onboarding-completed';
 export type OnboardingStep =
   | 'intro'
   | 'days-input'
+  | 'work-schedule'
   | 'strategy-selection'
   | 'holidays-selection'
   | 'company-days'
@@ -19,6 +20,7 @@ export type OnboardingStep =
 const STEPS_ORDER: OnboardingStep[] = [
   'intro',
   'days-input',
+  'work-schedule',
   'strategy-selection',
   'holidays-selection',
   'company-days',
@@ -164,9 +166,5 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     isCurrentStep,
   };
 
-  return (
-    <OnboardingContext.Provider value={value}>
-      {children}
-    </OnboardingContext.Provider>
-  );
-} 
+  return <OnboardingContext.Provider value={value}>{children}</OnboardingContext.Provider>;
+}

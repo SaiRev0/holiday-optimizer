@@ -5,6 +5,7 @@ const STORAGE_KEY_BASE = 'preferences';
 interface UserPreferences {
   days: string;
   strategy: OptimizationStrategy;
+  isSaturdayWorkingDay: boolean;
 }
 
 // Helper function to get the year-specific storage key
@@ -55,4 +56,16 @@ export function getStoredDays(year: number = new Date().getFullYear()): string {
 export function getStoredStrategy(year: number = new Date().getFullYear()): OptimizationStrategy {
   const preferences = getStoredPreferences(year);
   return preferences.strategy || 'balanced';
+}
+
+export function storeSaturdayWorkingDay(
+  isSaturdayWorkingDay: boolean,
+  year: number = new Date().getFullYear()
+) {
+  storePreferences({ isSaturdayWorkingDay }, year);
+}
+
+export function getStoredSaturdayWorkingDay(year: number = new Date().getFullYear()): boolean {
+  const preferences = getStoredPreferences(year);
+  return preferences.isSaturdayWorkingDay ?? false; // Default to false (Saturday is weekend)
 }

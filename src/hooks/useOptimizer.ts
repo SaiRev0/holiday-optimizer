@@ -7,7 +7,7 @@ import { OptimizationStrategy } from '@/types';
  */
 export function useDaysInput() {
   const { state, dispatch } = useOptimizer();
-  
+
   return {
     days: state.days,
     errors: state.errors.days,
@@ -21,10 +21,10 @@ export function useDaysInput() {
  */
 export function useStrategySelection() {
   const { state, dispatch } = useOptimizer();
-  
+
   return {
     strategy: state.strategy,
-    setStrategy: (value: OptimizationStrategy) => 
+    setStrategy: (value: OptimizationStrategy) =>
       dispatch({ type: 'SET_STRATEGY', payload: value }),
   };
 }
@@ -35,11 +35,10 @@ export function useStrategySelection() {
  */
 export function useYearSelection() {
   const { state, dispatch } = useOptimizer();
-  
+
   return {
     selectedYear: state.selectedYear,
-    setSelectedYear: (value: number) => 
-      dispatch({ type: 'SET_SELECTED_YEAR', payload: value }),
+    setSelectedYear: (value: number) => dispatch({ type: 'SET_SELECTED_YEAR', payload: value }),
   };
 }
 
@@ -49,17 +48,15 @@ export function useYearSelection() {
  */
 export function useHolidays() {
   const { state, dispatch } = useOptimizer();
-  
+
   return {
     holidays: state.holidays,
     errors: state.errors.holiday,
-    addHoliday: (date: string, name: string) => 
+    addHoliday: (date: string, name: string) =>
       dispatch({ type: 'ADD_HOLIDAY', payload: { date, name } }),
-    removeHoliday: (date: string) => 
-      dispatch({ type: 'REMOVE_HOLIDAY', payload: date }),
-    clearHolidays: () => 
-      dispatch({ type: 'CLEAR_HOLIDAYS' }),
-    setDetectedHolidays: (holidays: Array<{ date: string, name: string }>) =>
+    removeHoliday: (date: string) => dispatch({ type: 'REMOVE_HOLIDAY', payload: date }),
+    clearHolidays: () => dispatch({ type: 'CLEAR_HOLIDAYS' }),
+    setDetectedHolidays: (holidays: Array<{ date: string; name: string }>) =>
       dispatch({ type: 'SET_DETECTED_HOLIDAYS', payload: holidays }),
   };
 }
@@ -70,17 +67,29 @@ export function useHolidays() {
  */
 export function useCompanyDays() {
   const { state, dispatch } = useOptimizer();
-  
+
   return {
     companyDaysOff: state.companyDaysOff,
     errors: state.errors.companyDay,
-    addCompanyDay: (date: string, name: string) => 
+    addCompanyDay: (date: string, name: string) =>
       dispatch({ type: 'ADD_COMPANY_DAY', payload: { date, name } }),
-    removeCompanyDay: (date: string) => 
-      dispatch({ type: 'REMOVE_COMPANY_DAY', payload: date }),
-    clearCompanyDays: () => 
-      dispatch({ type: 'CLEAR_COMPANY_DAYS' }),
-    setCompanyDays: (days: Array<{ date: string, name: string }>) => 
+    removeCompanyDay: (date: string) => dispatch({ type: 'REMOVE_COMPANY_DAY', payload: date }),
+    clearCompanyDays: () => dispatch({ type: 'CLEAR_COMPANY_DAYS' }),
+    setCompanyDays: (days: Array<{ date: string; name: string }>) =>
       dispatch({ type: 'SET_COMPANY_DAYS', payload: days }),
   };
-} 
+}
+
+/**
+ * Hook for managing Saturday working day setting in the optimizer form
+ * Provides access to Saturday working day state and methods to update it
+ */
+export function useSaturdayWorkingDay() {
+  const { state, dispatch } = useOptimizer();
+
+  return {
+    isSaturdayWorkingDay: state.isSaturdayWorkingDay,
+    setSaturdayWorkingDay: (isSaturdayWorkingDay: boolean) =>
+      dispatch({ type: 'SET_SATURDAY_WORKING_DAY', payload: isSaturdayWorkingDay }),
+  };
+}

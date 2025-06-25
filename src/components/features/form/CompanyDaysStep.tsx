@@ -30,11 +30,12 @@ export function CompanyDaysStep() {
     <StepTitleWithInfo
       title="Company Days Off"
       colorScheme={colorScheme}
-      badge={{ label: "Optional" }}
+      badge={{ label: 'Optional' }}
       tooltip={{
-        title: "Company Days Off",
-        description: "These are non-working days your company provides that don't count against your PTO, such as company holidays or special days off. Adding these helps avoid scheduling PTO on days you already have free.",
-        ariaLabel: "About company days off"
+        title: 'Company Days Off',
+        description:
+          "These are non-working days your company provides that don't count against your PTO, such as company holidays or special days off. Adding these helps avoid scheduling PTO on days you already have free.",
+        ariaLabel: 'About company days off',
       }}
     />
   );
@@ -44,7 +45,7 @@ export function CompanyDaysStep() {
   return (
     <FormSection colorScheme={colorScheme} headingId="company-days-heading">
       <StepHeader
-        number={4}
+        number={5}
         title={titleWithInfo}
         description={`Add your company's special non-working days for ${selectedYear} that don't count against your PTO.`}
         colorScheme={colorScheme}
@@ -65,4 +66,4 @@ export function CompanyDaysStep() {
       </fieldset>
     </FormSection>
   );
-} 
+}
