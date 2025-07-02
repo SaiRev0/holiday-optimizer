@@ -6,7 +6,7 @@
  */
 import { format, parse } from 'date-fns';
 import { Break } from '@/types';
-import { Tooltip, TooltipTrigger, StatTooltipContent } from '@/components/ui/tooltip';
+import { MobileColoredTooltip } from '@/components/ui/mobile-tooltip';
 import { BREAK_LENGTHS, COLOR_SCHEMES } from '@/constants';
 import { Calendar, Clock, Sparkles, Star } from 'lucide-react';
 import { cn, DayType, dayTypeToColorScheme } from '@/lib/utils';
@@ -178,25 +178,25 @@ const DayVisualization = ({ days }: DayVisualizationProps) => {
           const heightClass = 'h-2';
 
           return (
-            <Tooltip key={day.date}>
-              <TooltipTrigger asChild>
-                {/* Day bar with color based on day type */}
-                <div
-                  className={cn(
-                    'flex-1 rounded-sm relative group cursor-help',
-                    // Color mapping based on color scheme
-                    COLOR_SCHEMES[colorScheme].calendar.bg,
-                    heightClass,
-                    'border border-transparent hover:border-gray-200 dark:hover:border-gray-700',
-                    'transition-all duration-150 hover:shadow-sm'
-                  )}
-                />
-              </TooltipTrigger>
-              {/* Tooltip showing date and day type */}
-              <StatTooltipContent colorScheme={colorScheme}>
-                <p className="text-xs">{`${formattedDate} - ${description}`}</p>
-              </StatTooltipContent>
-            </Tooltip>
+            <MobileColoredTooltip
+              key={day.date}
+              content={<p className="text-xs">{`${formattedDate} - ${description}`}</p>}
+              colorScheme={colorScheme}
+              side="top"
+              align="center"
+            >
+              {/* Day bar with color based on day type */}
+              <div
+                className={cn(
+                  'flex-1 rounded-sm relative group cursor-help',
+                  // Color mapping based on color scheme
+                  COLOR_SCHEMES[colorScheme].calendar.bg,
+                  heightClass,
+                  'border border-transparent hover:border-gray-200 dark:hover:border-gray-700',
+                  'transition-all duration-150 hover:shadow-sm'
+                )}
+              />
+            </MobileColoredTooltip>
           );
         })}
       </div>

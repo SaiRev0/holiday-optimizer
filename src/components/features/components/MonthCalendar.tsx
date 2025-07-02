@@ -10,7 +10,7 @@ import {
   startOfDay,
   startOfMonth,
 } from 'date-fns';
-import { StatTooltipContent, Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
+import { MobileColoredTooltip } from '@/components/ui/mobile-tooltip';
 import { OptimizedDay } from '@/types';
 import { cn, DayType, dayTypeToColorScheme } from '@/lib/utils';
 import { COLOR_SCHEMES, WEEKDAYS } from '@/constants';
@@ -104,26 +104,10 @@ const CalendarDay = ({ day, dayInfo, hasPublicHoliday }: CalendarDayProps) => {
         )}
       />
 
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div
-            className={cn(
-              'absolute inset-0 flex items-center justify-center font-medium z-10 text-xs',
-              textClass,
-              tooltipText && 'cursor-help',
-              // Very subtle text emphasis for break days
-              day.isPartOfBreak &&
-                dayType !== 'extendedWeekend' &&
-                'text-indigo-700 dark:text-indigo-300'
-            )}
-          >
-            {format(date, 'd')}
-          </div>
-        </TooltipTrigger>
-        {tooltipText && (
-          <StatTooltipContent colorScheme={colorScheme}>
-            {/* Enhanced tooltip content with better structure */}
-            {day.isPartOfBreak ? (
+      <MobileColoredTooltip
+        content={
+          tooltipText ? (
+            day.isPartOfBreak ? (
               <div className="space-y-1">
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-sm bg-indigo-500/70 dark:bg-indigo-400/80" />
@@ -139,10 +123,28 @@ const CalendarDay = ({ day, dayInfo, hasPublicHoliday }: CalendarDayProps) => {
               </div>
             ) : (
               <p className="text-xs">{tooltipText}</p>
-            )}
-          </StatTooltipContent>
-        )}
-      </Tooltip>
+            )
+          ) : null
+        }
+        colorScheme={colorScheme}
+        side="top"
+        align="center"
+        disabled={!tooltipText}
+      >
+        <div
+          className={cn(
+            'absolute inset-0 flex items-center justify-center font-medium z-10 text-xs',
+            textClass,
+            tooltipText && 'cursor-help',
+            // Very subtle text emphasis for break days
+            day.isPartOfBreak &&
+              dayType !== 'extendedWeekend' &&
+              'text-indigo-700 dark:text-indigo-300'
+          )}
+        >
+          {format(date, 'd')}
+        </div>
+      </MobileColoredTooltip>
 
       {/* Holiday Indicator Dot */}
       {hasPublicHoliday && day.isPublicHoliday && (

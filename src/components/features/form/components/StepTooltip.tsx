@@ -1,6 +1,7 @@
 import { Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export interface StepTooltipProps {
   /**
@@ -23,7 +24,31 @@ export interface StepTooltipProps {
 
 export function StepTooltip({ title, description, colorScheme, ariaLabel }: StepTooltipProps) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [tooltipSide, setTooltipSide] = useState<'right' | 'left' | 'top' | 'bottom'>('right');
+  const [tooltipAlign, setTooltipAlign] = useState<'start' | 'center' | 'end'>('start');
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+
+  // Handle click outside to close tooltip on mobile
+  useEffect(() => {
+    if (!isMobile || !tooltipOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        contentRef.current &&
+        triggerRef.current &&
+        !contentRef.current.contains(target) &&
+        !triggerRef.current.contains(target)
+      ) {
+        setTooltipOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobile, tooltipOpen]);
 
   // Close tooltip on ESC key
   useEffect(() => {
@@ -41,6 +66,70 @@ export function StepTooltip({ title, description, colorScheme, ariaLabel }: Step
     };
   }, [tooltipOpen]);
 
+  // Smart positioning to keep tooltip within viewport
+  useEffect(() => {
+    if (!tooltipOpen || !triggerRef.current) return;
+
+    const updatePosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+
+      const triggerRect = trigger.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+
+      // Estimated tooltip dimensions with mobile considerations
+      const tooltipWidth = isMobile ? Math.min(288, viewportWidth - 32) : 288;
+      const tooltipHeight = 100; // Estimated height
+      const padding = 16; // Safe padding from viewport edges
+
+      let side: 'right' | 'left' | 'top' | 'bottom' = 'right';
+      let align: 'start' | 'center' | 'end' = 'start';
+
+      // Check if tooltip would go off-screen on the right
+      if (triggerRect.right + tooltipWidth + 8 > viewportWidth - padding) {
+        // Check if there's space on the left
+        if (triggerRect.left - tooltipWidth - 8 > padding) {
+          side = 'left';
+          align = 'start';
+        } else {
+          // Use top or bottom if horizontal space is limited
+          if (triggerRect.top - tooltipHeight - 8 > padding) {
+            side = 'top';
+          } else {
+            side = 'bottom';
+          }
+
+          // For top/bottom positioning, check horizontal alignment
+          const triggerCenter = triggerRect.left + triggerRect.width / 2;
+          const halfTooltipWidth = tooltipWidth / 2;
+
+          if (triggerCenter - halfTooltipWidth < padding) {
+            // Would overflow on left, align to start
+            align = 'start';
+          } else if (triggerCenter + halfTooltipWidth > viewportWidth - padding) {
+            // Would overflow on right, align to end
+            align = 'end';
+          } else {
+            // Safe to center
+            align = 'center';
+          }
+        }
+      }
+
+      setTooltipSide(side);
+      setTooltipAlign(align);
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition);
+    };
+  }, [tooltipOpen, isMobile]);
+
   // Handle keyboard interactions
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
     switch (e.key) {
@@ -56,6 +145,24 @@ export function StepTooltip({ title, description, colorScheme, ariaLabel }: Step
         }
         break;
     }
+  };
+
+  // Handle click for mobile - improved to prevent conflicts
+  const handleClick = (e: React.MouseEvent) => {
+    if (isMobile) {
+      e.preventDefault();
+      e.stopPropagation();
+      setTooltipOpen(!tooltipOpen);
+    }
+  };
+
+  // Handle Radix UI's onOpenChange - prevent conflicts on mobile
+  const handleOpenChange = (open: boolean) => {
+    if (!isMobile) {
+      // On desktop, let Radix UI handle the state normally
+      setTooltipOpen(open);
+    }
+    // On mobile, ignore Radix UI's open change to prevent conflicts
   };
 
   // Map colorScheme to specific style classes
@@ -99,7 +206,7 @@ export function StepTooltip({ title, description, colorScheme, ariaLabel }: Step
   };
 
   return (
-    <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
+    <Tooltip open={tooltipOpen} onOpenChange={handleOpenChange} disableHoverableContent={isMobile}>
       <TooltipTrigger asChild>
         <button
           ref={triggerRef}
@@ -112,17 +219,22 @@ export function StepTooltip({ title, description, colorScheme, ariaLabel }: Step
           }
           aria-haspopup="dialog"
           onKeyDown={handleKeyDown}
+          onClick={handleClick}
           tabIndex={0}
         >
           <Info className={`h-3.5 w-3.5 ${colorClasses[colorScheme].icon}`} aria-hidden="true" />
         </button>
       </TooltipTrigger>
       <TooltipContent
-        side="right"
-        align="start"
-        className={`max-w-xs ${colorClasses[colorScheme].content}`}
+        ref={contentRef}
+        side={tooltipSide}
+        align={tooltipAlign}
+        className={`max-w-xs ${colorClasses[colorScheme].content} ${isMobile ? 'max-w-[calc(100vw-2rem)]' : ''}`}
         role="tooltip"
         id={`tooltip-${title.replace(/\s+/g, '-').toLowerCase()}`}
+        collisionPadding={16}
+        avoidCollisions={true}
+        sticky="partial"
       >
         <div className="space-y-2 p-1">
           <h4 className={`font-medium ${colorClasses[colorScheme].header} text-sm`}>{title}</h4>
