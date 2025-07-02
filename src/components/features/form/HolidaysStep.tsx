@@ -280,7 +280,7 @@ export const HolidaysStep = () => {
 
           {isHolidayListExpanded && (
             <div className="animate-in slide-in-from-top-2 duration-200">
-              <DateList title="Public Holidays for Your Location" colorScheme="amber" />
+              <DateList title="Public Holidays of your State" colorScheme="amber" />
             </div>
           )}
         </div>

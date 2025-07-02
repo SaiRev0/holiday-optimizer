@@ -33,7 +33,7 @@ export function DateListItem({ item }: DateListItemProps) {
         'border-t',
         colorStyles[colorScheme].divider,
         'transition-colors duration-200',
-        colorStyles[colorScheme].hover,
+        colorStyles[colorScheme].hover
       )}
       data-date={item.date}
     >
@@ -41,19 +41,13 @@ export function DateListItem({ item }: DateListItemProps) {
         <div className="flex-1 min-w-0">
           <>
             <div className="flex items-center gap-2">
-              <p className={cn(
-                'text-sm font-medium',
-                colorStyles[colorScheme].text,
-              )}>
+              <p className={cn('text-sm font-medium', colorStyles[colorScheme].text)}>
                 {item.name}
               </p>
             </div>
             <time
               dateTime={item.date}
-              className={cn(
-                'block text-xs mt-0.5',
-                colorStyles[colorScheme].muted,
-              )}
+              className={cn('block text-xs mt-0.5', colorStyles[colorScheme].muted)}
             >
               {formattedDate}
             </time>
@@ -65,14 +59,13 @@ export function DateListItem({ item }: DateListItemProps) {
           onClick={() => onRemoveAction(item.date)}
           className={cn(
             'p-1.5 rounded-full',
-            'opacity-0 group-hover/item:opacity-100',
-            'scale-90 group-hover/item:scale-100',
+            'opacity-70 hover:opacity-100',
             'text-gray-400',
             colorStyles[colorScheme].accent,
             'transition-all duration-200',
             'focus:outline-none focus:ring-2',
             colorStyles[colorScheme].focus,
-            'focus:opacity-100 focus:scale-100',
+            'hover:scale-105 active:scale-95'
           )}
           aria-label={`Remove ${item.name}`}
         >

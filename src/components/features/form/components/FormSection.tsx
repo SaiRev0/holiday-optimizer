@@ -29,7 +29,7 @@ export function FormSection({ children, colorScheme, className, headingId }: For
       className={cn(
         'bg-white/90 dark:bg-gray-800/60',
         'rounded-lg p-2.5',
-        'ring-1',
+        'ring-2',
         'relative',
         colorStyles[colorScheme].ring,
         'space-y-2',
@@ -40,4 +40,4 @@ export function FormSection({ children, colorScheme, className, headingId }: For
       {children}
     </section>
   );
-} 
+}

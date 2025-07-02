@@ -37,7 +37,7 @@ function DateListContent() {
         'shadow-sm hover:shadow-md',
         'transition-all duration-300 ease-in-out',
         colorStyles[colorScheme].container,
-        colorStyles[colorScheme].border,
+        colorStyles[colorScheme].border
       )}
       aria-label={title}
     >

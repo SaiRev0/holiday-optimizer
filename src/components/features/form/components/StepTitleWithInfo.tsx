@@ -26,22 +26,17 @@ export interface StepTitleWithInfoProps {
   };
 }
 
-export function StepTitleWithInfo({ 
-  title, 
-  colorScheme, 
-  badge, 
-  tooltip 
-}: StepTitleWithInfoProps) {
+export function StepTitleWithInfo({ title, colorScheme, badge, tooltip }: StepTitleWithInfoProps) {
   return (
-    <div 
+    <div
       className="flex items-center justify-between w-full"
       role="group"
       aria-labelledby={`title-${title.replace(/\s+/g, '-').toLowerCase()}`}
     >
       <div className="flex items-center gap-2">
-        <span 
+        <span
           id={`title-${title.replace(/\s+/g, '-').toLowerCase()}`}
-          className="font-medium"
+          className="font-semibold text-base"
         >
           {title}
         </span>
@@ -55,4 +50,4 @@ export function StepTitleWithInfo({
       />
     </div>
   );
-} 
+}

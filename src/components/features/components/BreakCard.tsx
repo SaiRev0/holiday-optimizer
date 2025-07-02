@@ -34,9 +34,12 @@ const getBreakType = (totalDays: number) => {
  * @returns A string of Tailwind CSS classes for styling the break type badge
  */
 const getBreakStyles = (totalDays: number) => {
-  if (totalDays >= BREAK_LENGTHS.EXTENDED.MIN) return 'bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300';
-  if (totalDays >= BREAK_LENGTHS.WEEK_LONG.MIN) return 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300';
-  if (totalDays >= BREAK_LENGTHS.MINI_BREAK.MIN) return 'bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300';
+  if (totalDays >= BREAK_LENGTHS.EXTENDED.MIN)
+    return 'bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300';
+  if (totalDays >= BREAK_LENGTHS.WEEK_LONG.MIN)
+    return 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300';
+  if (totalDays >= BREAK_LENGTHS.MINI_BREAK.MIN)
+    return 'bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300';
   return 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300';
 };
 
@@ -83,9 +86,7 @@ const DayCount = ({ count, icon, label }: DayCountProps) => (
       {icon}
       <span className="text-xs font-medium text-gray-900 dark:text-gray-100">{count}</span>
     </div>
-    <p className="text-xs text-gray-500 dark:text-gray-400">
-      {label}
-    </p>
+    <p className="text-xs text-gray-500 dark:text-gray-400">{label}</p>
   </div>
 );
 
@@ -106,10 +107,9 @@ const DayCountsGrid = ({ breakPeriod }: DayCountsGridProps) => (
     {breakPeriod.ptoDays > 0 && (
       <DayCount
         count={breakPeriod.ptoDays}
-        icon={<Calendar className={cn(
-          iconSize,
-          COLOR_SCHEMES[dayTypeToColorScheme.pto].icon.text
-        )} />}
+        icon={
+          <Calendar className={cn(iconSize, COLOR_SCHEMES[dayTypeToColorScheme.pto].icon.text)} />
+        }
         label={breakPeriod.ptoDays === 1 ? 'PTO Day' : 'PTO Days'}
       />
     )}
@@ -118,10 +118,11 @@ const DayCountsGrid = ({ breakPeriod }: DayCountsGridProps) => (
     {breakPeriod.publicHolidays > 0 && (
       <DayCount
         count={breakPeriod.publicHolidays}
-        icon={<Star className={cn(
-          iconSize,
-          COLOR_SCHEMES[dayTypeToColorScheme.publicHoliday].icon.text
-        )} />}
+        icon={
+          <Star
+            className={cn(iconSize, COLOR_SCHEMES[dayTypeToColorScheme.publicHoliday].icon.text)}
+          />
+        }
         label={breakPeriod.publicHolidays === 1 ? 'Public Holiday' : 'Public Holidays'}
       />
     )}
@@ -130,10 +131,11 @@ const DayCountsGrid = ({ breakPeriod }: DayCountsGridProps) => (
     {breakPeriod.companyDaysOff > 0 && (
       <DayCount
         count={breakPeriod.companyDaysOff}
-        icon={<Sparkles className={cn(
-          iconSize,
-          COLOR_SCHEMES[dayTypeToColorScheme.companyDayOff].icon.text
-        )} />}
+        icon={
+          <Sparkles
+            className={cn(iconSize, COLOR_SCHEMES[dayTypeToColorScheme.companyDayOff].icon.text)}
+          />
+        }
         label={breakPeriod.companyDaysOff === 1 ? 'Company Day Off' : 'Company Days Off'}
       />
     )}
@@ -142,10 +144,9 @@ const DayCountsGrid = ({ breakPeriod }: DayCountsGridProps) => (
     {breakPeriod.weekends > 0 && (
       <DayCount
         count={breakPeriod.weekends}
-        icon={<Clock className={cn(
-          iconSize,
-          COLOR_SCHEMES[dayTypeToColorScheme.weekend].icon.text
-        )} />}
+        icon={
+          <Clock className={cn(iconSize, COLOR_SCHEMES[dayTypeToColorScheme.weekend].icon.text)} />
+        }
         label={breakPeriod.weekends === 1 ? 'Weekend' : 'Weekends'}
       />
     )}
@@ -167,7 +168,7 @@ const DayVisualization = ({ days }: DayVisualizationProps) => {
     <div className="mt-3">
       {/* Container for day bars with bottom alignment */}
       <div className="flex space-x-0.5 items-end h-3">
-        {days.map((day) => {
+        {days.map(day => {
           const dayType = getDayType(day);
           const colorScheme = dayTypeToColorScheme[dayType];
           const formattedDate = format(parse(day.date, 'yyyy-MM-dd', new Date()), 'MMM d');
@@ -187,7 +188,7 @@ const DayVisualization = ({ days }: DayVisualizationProps) => {
                     COLOR_SCHEMES[colorScheme].calendar.bg,
                     heightClass,
                     'border border-transparent hover:border-gray-200 dark:hover:border-gray-700',
-                    'transition-all duration-150 hover:shadow-sm',
+                    'transition-all duration-150 hover:shadow-sm'
                   )}
                 />
               </TooltipTrigger>
@@ -226,10 +227,7 @@ const BreakHeader = ({ startDate, endDate, totalDays }: BreakHeaderProps) => (
       </p>
     </div>
     {/* Break type badge */}
-    <div className={cn(
-      'px-2 py-1 rounded-lg text-xs font-medium',
-      getBreakStyles(totalDays),
-    )}>
+    <div className={cn('px-2 py-1 rounded-lg text-xs font-medium', getBreakStyles(totalDays))}>
       {getBreakType(totalDays)}
     </div>
   </div>
@@ -248,11 +246,7 @@ export const BreakCard = ({ breakPeriod }: BreakCardProps) => {
   return (
     <div className="bg-white dark:bg-gray-800/50 rounded-lg shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 p-4">
       {/* Header with date range and break type */}
-      <BreakHeader
-        startDate={startDate}
-        endDate={endDate}
-        totalDays={breakPeriod.totalDays}
-      />
+      <BreakHeader startDate={startDate} endDate={endDate} totalDays={breakPeriod.totalDays} />
       {/* Grid showing counts of different day types */}
       <DayCountsGrid breakPeriod={breakPeriod} />
       {/* Visual representation of days in the break */}
