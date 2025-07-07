@@ -5,6 +5,102 @@ import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
+// Global tooltip manager to ensure only one tooltip is open at a time
+class TooltipManager {
+  private static instance: TooltipManager;
+  private openTooltipId: string | null = null;
+  private closeCallbacks: Map<string, () => void> = new Map();
+
+  static getInstance(): TooltipManager {
+    if (!TooltipManager.instance) {
+      TooltipManager.instance = new TooltipManager();
+    }
+    return TooltipManager.instance;
+  }
+
+  openTooltip(id: string, closeCallback: () => void): void {
+    // Close any existing tooltip
+    if (this.openTooltipId && this.openTooltipId !== id) {
+      const existingCloseCallback = this.closeCallbacks.get(this.openTooltipId);
+      if (existingCloseCallback) {
+        existingCloseCallback();
+      }
+    }
+
+    this.openTooltipId = id;
+    this.closeCallbacks.set(id, closeCallback);
+  }
+
+  closeTooltip(id: string): void {
+    if (this.openTooltipId === id) {
+      this.openTooltipId = null;
+      this.closeCallbacks.delete(id);
+    }
+  }
+
+  closeAllTooltips(): void {
+    if (this.openTooltipId) {
+      const closeCallback = this.closeCallbacks.get(this.openTooltipId);
+      if (closeCallback) {
+        closeCallback();
+      }
+      this.openTooltipId = null;
+      this.closeCallbacks.clear();
+    }
+  }
+
+  isTooltipOpen(id: string): boolean {
+    return this.openTooltipId === id;
+  }
+}
+
+// Global click outside handler
+let globalClickHandler: ((event: MouseEvent) => void) | null = null;
+
+const setupGlobalClickHandler = () => {
+  if (!globalClickHandler) {
+    globalClickHandler = (event: MouseEvent | TouchEvent) => {
+      // Check if click is outside any tooltip content or trigger
+      const target = event.target as Node;
+      if (!target) return;
+
+      const tooltipContents = document.querySelectorAll('[data-tooltip-content="true"]');
+      const tooltipTriggers = document.querySelectorAll('[data-tooltip-trigger="true"]');
+
+      let isClickInsideTooltip = false;
+
+      // Check tooltip contents
+      tooltipContents.forEach(element => {
+        if (element.contains(target)) {
+          isClickInsideTooltip = true;
+        }
+      });
+
+      // Check tooltip triggers
+      tooltipTriggers.forEach(element => {
+        if (element.contains(target)) {
+          isClickInsideTooltip = true;
+        }
+      });
+
+      if (!isClickInsideTooltip) {
+        TooltipManager.getInstance().closeAllTooltips();
+      }
+    };
+
+    document.addEventListener('mousedown', globalClickHandler as EventListener);
+    document.addEventListener('touchstart', globalClickHandler as EventListener);
+  }
+};
+
+// const cleanupGlobalClickHandler = () => {
+//   if (globalClickHandler) {
+//     document.removeEventListener('mousedown', globalClickHandler as EventListener);
+//     document.removeEventListener('touchstart', globalClickHandler as EventListener);
+//     globalClickHandler = null;
+//   }
+// };
+
 interface MobileTooltipProps {
   content: React.ReactNode;
   children: React.ReactNode;
@@ -278,7 +374,25 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
   const contentRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLElement>(null);
 
-  // Handle click outside to close tooltip on mobile
+  // Generate unique ID for tooltip management
+  const tooltipId = React.useMemo(() =>
+    `tooltip-${Math.random().toString(36).substr(2, 9)}`,
+    []
+  );
+
+  // Setup global click handler when component mounts
+  React.useEffect(() => {
+    if (isMobile) {
+      setupGlobalClickHandler();
+    }
+    return () => {
+      if (isMobile) {
+        TooltipManager.getInstance().closeTooltip(tooltipId);
+      }
+    };
+  }, [isMobile, tooltipId]);
+
+  // Handle click outside using global system on mobile
   React.useEffect(() => {
     if (!isMobile || !open) return;
 
@@ -291,12 +405,13 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
         !triggerRef.current.contains(target)
       ) {
         setOpen(false);
+        TooltipManager.getInstance().closeTooltip(tooltipId);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMobile, open]);
+  }, [isMobile, open, tooltipId]);
 
   // Handle ESC key to close tooltip
   React.useEffect(() => {
@@ -305,6 +420,7 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false);
+        TooltipManager.getInstance().closeTooltip(tooltipId);
         // Return focus to trigger element
         if (triggerRef.current) {
           const focusableElement =
@@ -318,7 +434,7 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
 
     document.addEventListener('keydown', handleEscKey);
     return () => document.removeEventListener('keydown', handleEscKey);
-  }, [open]);
+  }, [open, tooltipId]);
 
   // Smart positioning to keep tooltip within viewport
   const [finalSide, setFinalSide] = React.useState(side);
@@ -338,26 +454,27 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
       // More accurate tooltip dimensions
       const tooltipWidth = isMobile ? Math.min(288, viewportWidth - 32) : 288;
       const tooltipHeight = 80;
+      const padding = 16;
 
       let newSide = side;
       let newAlign = align;
 
       // Check vertical positioning
-      if (side === 'top' && triggerRect.top < tooltipHeight + sideOffset + 16) {
+      if (side === 'top' && triggerRect.top < tooltipHeight + sideOffset + padding) {
         newSide = 'bottom';
       } else if (
         side === 'bottom' &&
-        triggerRect.bottom > viewportHeight - tooltipHeight - sideOffset - 16
+        triggerRect.bottom > viewportHeight - tooltipHeight - sideOffset - padding
       ) {
         newSide = 'top';
       }
 
-      // Check horizontal positioning for left/right sides
-      if (side === 'left' && triggerRect.left < tooltipWidth + sideOffset + 16) {
+      // Check horizontal positioning for left/right sides - this is where the left overflow issue was
+      if (side === 'left' && triggerRect.left < tooltipWidth + sideOffset + padding) {
         newSide = 'right';
       } else if (
         side === 'right' &&
-        triggerRect.right > viewportWidth - tooltipWidth - sideOffset - 16
+        triggerRect.right > viewportWidth - tooltipWidth - sideOffset - padding
       ) {
         newSide = 'left';
       }
@@ -368,11 +485,30 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
         const halfTooltipWidth = tooltipWidth / 2;
 
         // Check if tooltip would overflow on the left
-        if (tooltipCenterX - halfTooltipWidth < 16) {
+        if (tooltipCenterX - halfTooltipWidth < padding) {
           newAlign = 'start';
         }
         // Check if tooltip would overflow on the right
-        else if (tooltipCenterX + halfTooltipWidth > viewportWidth - 16) {
+        else if (tooltipCenterX + halfTooltipWidth > viewportWidth - padding) {
+          newAlign = 'end';
+        }
+        // Keep original alignment if no overflow detected
+        else {
+          newAlign = align;
+        }
+      }
+
+      // For left/right sides, also check vertical alignment
+      if (newSide === 'left' || newSide === 'right') {
+        const tooltipCenterY = triggerRect.top + triggerRect.height / 2;
+        const halfTooltipHeight = tooltipHeight / 2;
+
+        // Check if tooltip would overflow on the top
+        if (tooltipCenterY - halfTooltipHeight < padding) {
+          newAlign = 'start';
+        }
+        // Check if tooltip would overflow on the bottom
+        else if (tooltipCenterY + halfTooltipHeight > viewportHeight - padding) {
           newAlign = 'end';
         }
         // Keep original alignment if no overflow detected
@@ -401,20 +537,36 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
       if (isMobile) {
         event.preventDefault();
         event.stopPropagation();
-        setOpen(!open);
+
+        const newOpen = !open;
+        setOpen(newOpen);
+
+        if (newOpen) {
+          // Use global tooltip manager to ensure only one tooltip is open
+          TooltipManager.getInstance().openTooltip(tooltipId, () => setOpen(false));
+        } else {
+          TooltipManager.getInstance().closeTooltip(tooltipId);
+        }
       }
     },
-    [open, isMobile]
+    [open, isMobile, tooltipId]
   );
 
-  const handleTriggerKeyDown = React.useCallback(
+    const handleTriggerKeyDown = React.useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        setOpen(!open);
+        const newOpen = !open;
+        setOpen(newOpen);
+
+        if (newOpen) {
+          TooltipManager.getInstance().openTooltip(tooltipId, () => setOpen(false));
+        } else {
+          TooltipManager.getInstance().closeTooltip(tooltipId);
+        }
       }
     },
-    [open]
+    [open, tooltipId]
   );
 
   // Control tooltip open state properly - improved mobile handling
@@ -436,6 +588,8 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
   // Clone children to add event handlers
   const enhancedChildren = React.isValidElement(children)
     ? React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+        ref: triggerRef,
+        'data-tooltip-trigger': 'true',
         onClick: (event: React.MouseEvent) => {
           // Call existing onClick if it exists
           const originalOnClick = (children as React.ReactElement<Record<string, unknown>>).props
@@ -502,6 +656,7 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content
             ref={contentRef}
+            data-tooltip-content="true"
             side={finalSide}
             align={finalAlign}
             sideOffset={sideOffset}
@@ -542,3 +697,5 @@ export const MobileColoredTooltip: React.FC<MobileColoredTooltipProps> = ({
     </TooltipPrimitive.Provider>
   );
 };
+
+// Note: Global manager code is kept for potential future use but not currently exported

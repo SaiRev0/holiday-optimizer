@@ -52,14 +52,15 @@ export function StepTooltip({ title, description, colorScheme, ariaLabel }: Step
 
   // Close tooltip on ESC key
   useEffect(() => {
+    if (!tooltipOpen) return;
+
     const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && tooltipOpen) {
+      if (event.key === 'Escape') {
         setTooltipOpen(false);
         triggerRef.current?.focus();
       }
     };
 
-    // Use a type assertion for document.addEventListener
     document.addEventListener('keydown', handleEscKey as unknown as EventListener);
     return () => {
       document.removeEventListener('keydown', handleEscKey as unknown as EventListener);
@@ -147,7 +148,7 @@ export function StepTooltip({ title, description, colorScheme, ariaLabel }: Step
     }
   };
 
-  // Handle click for mobile - improved to prevent conflicts
+  // Handle click for mobile - simplified approach
   const handleClick = (e: React.MouseEvent) => {
     if (isMobile) {
       e.preventDefault();
