@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Saiyam Jain' }],
   creator: 'Saiyam Jain',
   publisher: 'Saiyam Jain',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || ''),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || ''),
   alternates: {
     canonical: '/',
   },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Indian Holiday Optimizer - Maximize Your Time Off',
     description:
       'Optimize your Paid Time Off days to maximize your time off throughout the year with our intelligent optimization tool.',
-    url: process.env.NEXT_PUBLIC_BASE_URL || '',
+    url: process.env.NEXT_PUBLIC_URL || '',
     siteName: 'Indian Holiday Optimizer',
     locale: 'en_US',
     type: 'website',
@@ -67,7 +67,7 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+  const baseUrl = process.env.NEXT_PUBLIC_URL || '';
 
   return (
     <html lang="en" suppressHydrationWarning>

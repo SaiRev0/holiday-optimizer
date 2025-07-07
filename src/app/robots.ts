@@ -3,19 +3,19 @@ import { MetadataRoute } from 'next';
 export const dynamic = 'force-static';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://holiday-optimizer.com';
-  
+  const baseUrl = process.env.NEXT_PUBLIC_URL || 'https://holiday-optimizer.com';
+
   return {
     rules: [
       {
         // Allow major search engines with specific directives
         userAgent: [
-          'Googlebot', 
+          'Googlebot',
           'Googlebot-Image',
           'Googlebot-News',
           'Googlebot-Video',
-          'Bingbot', 
-          'DuckDuckBot', 
+          'Bingbot',
+          'DuckDuckBot',
           'Slurp',
           'Baiduspider', // Chinese search engine
           'Yandex',      // Russian search engine
@@ -61,4 +61,4 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: `${baseUrl}/sitemap.xml`, // Add sitemap for search engines
     host: baseUrl.replace(/^https?:\/\//, ''), // Canonical host without protocol
   };
-} 
+}

@@ -4,7 +4,7 @@ import { getAvailableCountries, getRegions, getStates } from '@/services/holiday
 export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://holiday-optimizer.com';
+  const baseUrl = process.env.NEXT_PUBLIC_URL || 'https://holiday-optimizer.com';
 
   // Add all static routes that should be indexed by search engines
   const staticRoutes = [
